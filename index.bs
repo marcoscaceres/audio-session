@@ -29,13 +29,15 @@ In some cases this may not match user expectations, this API provides overrides 
 
 # The {{AudioSession}} interface # {#audiosession-interface}
 
-An <dfn>audio session</dfn> represents the playback of auditory media.
+An <dfn>audio session</dfn> represents the playback of audible media.
 An audio session can be of particular [=audio session/type=] and in a given [=audio session/state=].
 An audio session manages the audio for a set of sources and sinks, named audio session <dfn data-export data-lt="element" for="audio session">elements</dfn>.
 
-An audio session [=audio session/element=] has a number of properties. In particular it defines:
+An audio session [=audio session/element=] has a number of properties:
 * An audio session <dfn data-export data-lt="element state update steps list" for="audio session">element state update steps list</dfn> to be executed when the audio session state changes. By default, it is an empty list.
-* An audio session <dfn data-export data-lt="element state" for="audio session">element state</dfn> which is an {{AudioSessionState}}.
+* An audio session <dfn data-export data-lt="element state" for="audio session">element state</dfn> which is an {{AudioSessionState}}. By default it is {{AudioSessionState/inactive}}.
+
+An audio session [=audio session/element=] may be running without being considered {{AudioSessionState/active}}. For instance {{AudioContext}} that is not outputting samples to the speaker destination, or {{HTMLMediaElement}} that is playing but muted are not audible and would be considered {{AudioSessionState/inactive}}.
 
 {{AudioSession}} is the main interface for this API, which is accessed through the {{Navigator}} interface (see [[#extensions-to-navigator]]).
 
@@ -51,17 +53,17 @@ An audio session [=audio session/element=] has a number of properties. In partic
 
 To create an {{AudioSession}} object in |realm|, run the following steps:
 * Let |audioSession| be a new {{AudioSession}} object in |realm|, initalized with the following internal slots:
-    * <dfn data-export>[[\type]]</dfn> to store the audio session= [=audio session/type=], initialized to {{AudioSessionType/auto}}.
-    * <dfn data-export>[[\state]]</dfn> to store the audio session [=audio session/state=], initialized to {{AudioSessionState/inactive}}.
-    * <dfn data-export>[[\elements]]</dfn> to store the audio session [=audio session/elements=], initialized to an empty list.
+    * <dfn>[[\type]]</dfn> to store the audio session [=audio session/type=], initialized to {{AudioSessionType/auto}}.
+    * <dfn>[[\state]]</dfn> to store the audio session [=audio session/state=], initialized to {{AudioSessionState/inactive}}.
+    * <dfn>[[\elements]]</dfn> to store the audio session [=audio session/elements=], initialized to an empty list.
 * Return |audioSession|.
 
 Each {{AudioSession}} object is tied to its underlying [=audio session=].
 
-The {{AudioSession}} state attribute reflects its [=audio session=] [=audio session/state=].
+The {{AudioSession}} <dfn data-lt="state" for="AudioSession">state</dfn> attribute reflects its [=audio session=] [=audio session/state=].
 On getting, it MUST return the {{AudioSession}} [=[[\state]]=] value.
 
-The {{AudioSession}} type attribute reflects its [=audio session=] [=audio session/type=], except for {{AudioSessionType/auto}}.
+The {{AudioSession}} <dfn data-lt="type" for="AudioSession">type</dfn> attribute reflects its [=audio session=] [=audio session/type=], except for {{AudioSessionType/auto}}.
 On getting, it MUST return the {{AudioSession}} [=[[\type]]=] value.
 On setting, it MUST run the following steps with |newValue| being the new value being set on |audioSession|:
 * If |audioSession|.[=[[\type]]=] is equal to |newValue|, abort these steps.
@@ -86,7 +88,7 @@ In the API, these are represented by the {{AudioSessionType}} enum:
   <dt><dfn for="AudioSessionType" enum-value>play-and-record</dfn></dt>
   <dd>Play and record audio, which is used for recording audio. This is useful in cases microphone is being used or in video conferencing applications.</dd>
   <dt><dfn for="AudioSessionType" enum-value>auto</dfn></dt>
-  <dd>Auto lets the user agent choose the best audio session type according the use of audio by the web page. This is the type of the default {{AudioSession}}.</dd>
+  <dd>Auto lets the user agent choose the best audio session type according the use of audio by the web page. This is the default type of {{AudioSession}}.</dd>
 </dl>
 
 <pre class="idl">
@@ -173,9 +175,9 @@ When one of an |audioSession|'s [=audio session/elements=] state changes, the us
 
 To <dfn>compute the audio session type</dfn> with |audioSession|, the user agent MUST run the following steps:
 * If |audioSession|.[=[[\type]]=] is not {{AudioSessionType/auto}}, return |audioSession|.[=[[\type]]=].
-* If any |element| of |audioSession|.[=[[\elements]]=] is a live, not muted, microphone capture {{MediaStreamTrack}}, return {{AudioSessionType/play-and-record}}.
-* If any |element| of |audioSession|.[=[[\elements]]=] is an audible {{HTMLMediaElement}}, return {{AudioSessionType/playback}}.
-* If any |element| of |audioSession|.[=[[\elements]]=] is an audible {{AudioContext}}, return {{AudioSessionType/transient}}.
+* If any |element| of |audioSession|.[=[[\elements]]=] is a {{MediaStreamTrack}} whose [=element state|state=] is {{AudioSessionState/active}}, return {{AudioSessionType/play-and-record}}.
+* If any |element| of |audioSession|.[=[[\elements]]=] is an {{HTMLMediaElement}} whose [=element state|state=] is {{AudioSessionState/active}}, return {{AudioSessionType/playback}}.
+* If any |element| of |audioSession|.[=[[\elements]]=] is an {{AudioContext}} whose [=element state|state=] is {{AudioSessionState/active}}, return {{AudioSessionType/transient}}.
 * Return {{AudioSessionType/auto}}.
 
 To <dfn>update the playback</dfn> of |audioSession| with |newValue|, the user agent MUST run the following steps:
