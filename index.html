@@ -1,0 +1,2104 @@
+<!doctype html><html lang="en">
+ <head>
+  <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+  <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
+  <title>Audio Session</title>
+  <meta content="w3c/ED" name="w3c-status">
+  <link href="https://www.w3.org/StyleSheets/TR/2021/W3C-ED" rel="stylesheet">
+  <meta content="Bikeshed version 6270e4735, updated Tue Aug 6 12:12:30 2024 -0700" name="generator">
+  <link href="https://w3c.github.io/audio-session/" rel="canonical">
+  <meta content="dark light" name="color-scheme">
+  <link href="https://www.w3.org/StyleSheets/TR/2021/dark.css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css">
+<style>/* Boilerplate: style-autolinks */
+.css.css, .property.property, .descriptor.descriptor {
+    color: var(--a-normal-text);
+    font-size: inherit;
+    font-family: inherit;
+}
+.css::before, .property::before, .descriptor::before {
+    content: "‘";
+}
+.css::after, .property::after, .descriptor::after {
+    content: "’";
+}
+.property, .descriptor {
+    /* Don't wrap property and descriptor names */
+    white-space: nowrap;
+}
+.type { /* CSS value <type> */
+    font-style: italic;
+}
+pre .property::before, pre .property::after {
+    content: "";
+}
+[data-link-type="property"]::before,
+[data-link-type="propdesc"]::before,
+[data-link-type="descriptor"]::before,
+[data-link-type="value"]::before,
+[data-link-type="function"]::before,
+[data-link-type="at-rule"]::before,
+[data-link-type="selector"]::before,
+[data-link-type="maybe"]::before {
+    content: "‘";
+}
+[data-link-type="property"]::after,
+[data-link-type="propdesc"]::after,
+[data-link-type="descriptor"]::after,
+[data-link-type="value"]::after,
+[data-link-type="function"]::after,
+[data-link-type="at-rule"]::after,
+[data-link-type="selector"]::after,
+[data-link-type="maybe"]::after {
+    content: "’";
+}
+
+[data-link-type].production::before,
+[data-link-type].production::after,
+.prod [data-link-type]::before,
+.prod [data-link-type]::after {
+    content: "";
+}
+
+[data-link-type=element],
+[data-link-type=element-attr] {
+    font-family: Menlo, Consolas, "DejaVu Sans Mono", monospace;
+    font-size: .9em;
+}
+[data-link-type=element]::before { content: "<" }
+[data-link-type=element]::after  { content: ">" }
+
+[data-link-type=biblio] {
+    white-space: pre;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --selflink-text: black;
+        --selflink-bg: silver;
+        --selflink-hover-text: white;
+    }
+}
+</style>
+<style>/* Boilerplate: style-colors */
+/* Any --*-text not paired with a --*-bg is assumed to have a transparent bg */
+:root {
+    color-scheme: light dark;
+
+    --text: black;
+    --bg: white;
+
+    --unofficial-watermark: url(https://www.w3.org/StyleSheets/TR/2016/logos/UD-watermark);
+
+    --logo-bg: #1a5e9a;
+    --logo-active-bg: #c00;
+    --logo-text: white;
+
+    --tocnav-normal-text: #707070;
+    --tocnav-normal-bg: var(--bg);
+    --tocnav-hover-text: var(--tocnav-normal-text);
+    --tocnav-hover-bg: #f8f8f8;
+    --tocnav-active-text: #c00;
+    --tocnav-active-bg: var(--tocnav-normal-bg);
+
+    --tocsidebar-text: var(--text);
+    --tocsidebar-bg: #f7f8f9;
+    --tocsidebar-shadow: rgba(0,0,0,.1);
+    --tocsidebar-heading-text: hsla(203,20%,40%,.7);
+
+    --toclink-text: var(--text);
+    --toclink-underline: #3980b5;
+    --toclink-visited-text: var(--toclink-text);
+    --toclink-visited-underline: #054572;
+
+    --heading-text: #005a9c;
+
+    --hr-text: var(--text);
+
+    --algo-border: #def;
+
+    --del-text: red;
+    --del-bg: transparent;
+    --ins-text: #080;
+    --ins-bg: transparent;
+
+    --a-normal-text: #034575;
+    --a-normal-underline: #bbb;
+    --a-visited-text: var(--a-normal-text);
+    --a-visited-underline: #707070;
+    --a-hover-bg: rgba(75%, 75%, 75%, .25);
+    --a-active-text: #c00;
+    --a-active-underline: #c00;
+
+    --blockquote-border: silver;
+    --blockquote-bg: transparent;
+    --blockquote-text: currentcolor;
+
+    --issue-border: #e05252;
+    --issue-bg: #fbe9e9;
+    --issue-text: var(--text);
+    --issueheading-text: #831616;
+
+    --example-border: #e0cb52;
+    --example-bg: #fcfaee;
+    --example-text: var(--text);
+    --exampleheading-text: #574b0f;
+
+    --note-border: #52e052;
+    --note-bg: #e9fbe9;
+    --note-text: var(--text);
+    --noteheading-text: hsl(120, 70%, 30%);
+    --notesummary-underline: silver;
+
+    --assertion-border: #aaa;
+    --assertion-bg: #eee;
+    --assertion-text: black;
+
+    --advisement-border: orange;
+    --advisement-bg: #fec;
+    --advisement-text: var(--text);
+    --advisementheading-text: #b35f00;
+
+    --warning-border: red;
+    --warning-bg: hsla(40,100%,50%,0.95);
+    --warning-text: var(--text);
+
+    --amendment-border: #330099;
+    --amendment-bg: #F5F0FF;
+    --amendment-text: var(--text);
+    --amendmentheading-text: #220066;
+
+    --def-border: #8ccbf2;
+    --def-bg: #def;
+    --def-text: var(--text);
+    --defrow-border: #bbd7e9;
+
+    --datacell-border: silver;
+
+    --indexinfo-text: #707070;
+
+    --indextable-hover-text: black;
+    --indextable-hover-bg: #f7f8f9;
+
+    --outdatedspec-bg: rgba(0, 0, 0, .5);
+    --outdatedspec-text: black;
+    --outdated-bg: maroon;
+    --outdated-text: white;
+    --outdated-shadow: red;
+
+    --editedrec-bg: darkorange;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --text: #ddd;
+        --bg: black;
+
+        --unofficial-watermark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cg fill='%23100808' transform='translate(200 200) rotate(-45) translate(-200 -200)' stroke='%23100808' stroke-width='3'%3E%3Ctext x='50%25' y='220' style='font: bold 70px sans-serif; text-anchor: middle; letter-spacing: 6px;'%3EUNOFFICIAL%3C/text%3E%3Ctext x='50%25' y='305' style='font: bold 70px sans-serif; text-anchor: middle; letter-spacing: 6px;'%3EDRAFT%3C/text%3E%3C/g%3E%3C/svg%3E");
+
+        --logo-bg: #1a5e9a;
+        --logo-active-bg: #c00;
+        --logo-text: white;
+
+        --tocnav-normal-text: #999;
+        --tocnav-normal-bg: var(--bg);
+        --tocnav-hover-text: var(--tocnav-normal-text);
+        --tocnav-hover-bg: #080808;
+        --tocnav-active-text: #f44;
+        --tocnav-active-bg: var(--tocnav-normal-bg);
+
+        --tocsidebar-text: var(--text);
+        --tocsidebar-bg: #080808;
+        --tocsidebar-shadow: rgba(255,255,255,.1);
+        --tocsidebar-heading-text: hsla(203,20%,40%,.7);
+
+        --toclink-text: var(--text);
+        --toclink-underline: #6af;
+        --toclink-visited-text: var(--toclink-text);
+        --toclink-visited-underline: #054572;
+
+        --heading-text: #8af;
+
+        --hr-text: var(--text);
+
+        --algo-border: #456;
+
+        --del-text: #f44;
+        --del-bg: transparent;
+        --ins-text: #4a4;
+        --ins-bg: transparent;
+
+        --a-normal-text: #6af;
+        --a-normal-underline: #555;
+        --a-visited-text: var(--a-normal-text);
+        --a-visited-underline: var(--a-normal-underline);
+        --a-hover-bg: rgba(25%, 25%, 25%, .2);
+        --a-active-text: #f44;
+        --a-active-underline: var(--a-active-text);
+
+        --borderedblock-bg: rgba(255, 255, 255, .05);
+
+        --blockquote-border: silver;
+        --blockquote-bg: var(--borderedblock-bg);
+        --blockquote-text: currentcolor;
+
+        --issue-border: #e05252;
+        --issue-bg: var(--borderedblock-bg);
+        --issue-text: var(--text);
+        --issueheading-text: hsl(0deg, 70%, 70%);
+
+        --example-border: hsl(50deg, 90%, 60%);
+        --example-bg: var(--borderedblock-bg);
+        --example-text: var(--text);
+        --exampleheading-text: hsl(50deg, 70%, 70%);
+
+        --note-border: hsl(120deg, 100%, 35%);
+        --note-bg: var(--borderedblock-bg);
+        --note-text: var(--text);
+        --noteheading-text: hsl(120, 70%, 70%);
+        --notesummary-underline: silver;
+
+        --assertion-border: #444;
+        --assertion-bg: var(--borderedblock-bg);
+        --assertion-text: var(--text);
+
+        --advisement-border: orange;
+        --advisement-bg: #222218;
+        --advisement-text: var(--text);
+        --advisementheading-text: #f84;
+
+        --warning-border: red;
+        --warning-bg: hsla(40,100%,20%,0.95);
+        --warning-text: var(--text);
+
+        --amendment-border: #330099;
+        --amendment-bg: #080010;
+        --amendment-text: var(--text);
+        --amendmentheading-text: #cc00ff;
+
+        --def-border: #8ccbf2;
+        --def-bg: #080818;
+        --def-text: var(--text);
+        --defrow-border: #136;
+
+        --datacell-border: silver;
+
+        --indexinfo-text: #aaa;
+
+        --indextable-hover-text: var(--text);
+        --indextable-hover-bg: #181818;
+
+        --outdatedspec-bg: rgba(255, 255, 255, .5);
+        --outdatedspec-text: black;
+        --outdated-bg: maroon;
+        --outdated-text: white;
+        --outdated-shadow: red;
+
+        --editedrec-bg: darkorange;
+    }
+    /* In case a transparent-bg image doesn't expect to be on a dark bg,
+       which is quite common in practice... */
+    img { background: white; }
+}
+</style>
+<style>/* Boilerplate: style-counters */
+body {
+    counter-reset: example figure issue;
+}
+.issue {
+    counter-increment: issue;
+}
+.issue:not(.no-marker)::before {
+    content: "Issue " counter(issue);
+}
+
+.example {
+    counter-increment: example;
+}
+.example:not(.no-marker)::before {
+    content: "Example " counter(example);
+}
+.invalid.example:not(.no-marker)::before,
+.illegal.example:not(.no-marker)::before {
+    content: "Invalid Example" counter(example);
+}
+
+figcaption {
+    counter-increment: figure;
+}
+figcaption:not(.no-marker)::before {
+    content: "Figure " counter(figure) " ";
+}
+</style>
+<style>/* Boilerplate: style-dfn-panel */
+:root {
+    --dfnpanel-bg: #ddd;
+    --dfnpanel-text: var(--text);
+    --dfnpanel-target-bg: #ffc;
+    --dfnpanel-target-outline: orange;
+}
+@media (prefers-color-scheme: dark) {
+    :root {
+        --dfnpanel-bg: #222;
+        --dfnpanel-text: var(--text);
+        --dfnpanel-target-bg: #333;
+        --dfnpanel-target-outline: silver;
+    }
+}
+.dfn-panel {
+    position: absolute;
+    z-index: 35;
+    width: 20em;
+    width: 300px;
+    height: auto;
+    max-height: 500px;
+    overflow: auto;
+    padding: 0.5em 0.75em;
+    font: small Helvetica Neue, sans-serif, Droid Sans Fallback;
+    background: var(--dfnpanel-bg);
+    color: var(--dfnpanel-text);
+    border: outset 0.2em;
+    white-space: normal; /* in case it's moved into a pre */
+}
+.dfn-panel:not(.on) { display: none; }
+.dfn-panel * { margin: 0; padding: 0; text-indent: 0; }
+.dfn-panel > b { display: block; }
+.dfn-panel a { color: var(--dfnpanel-text); }
+.dfn-panel a:not(:hover) { text-decoration: none !important; border-bottom: none !important; }
+.dfn-panel a:focus {
+    outline: 5px auto Highlight;
+    outline: 5px auto -webkit-focus-ring-color;
+}
+.dfn-panel > b + b { margin-top: 0.25em; }
+.dfn-panel ul { padding: 0 0 0 1em; list-style: none; }
+.dfn-panel li a {
+    max-width: calc(300px - 1.5em - 1em);
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.dfn-panel.activated {
+    display: inline-block;
+    position: fixed;
+    left: 8px;
+    bottom: 2em;
+    margin: 0 auto;
+    max-width: calc(100vw - 1.5em - .4em - .5em);
+    max-height: 30vh;
+    transition: left 1s ease-out, bottom 1s ease-out;
+}
+
+.dfn-panel .link-item:hover {
+    text-decoration: underline;
+}
+.dfn-panel .link-item .copy-icon {
+    opacity: 0;
+}
+.dfn-panel .link-item:hover .copy-icon,
+.dfn-panel .link-item .copy-icon:focus {
+    opacity: 1;
+}
+
+.dfn-panel .copy-icon {
+    display: inline-block;
+    margin-right: 0.5em;
+    width: 0.85em;
+    height: 1em;
+    border-radius: 3px;
+    background-color: #ccc;
+    cursor: pointer;
+}
+
+.dfn-panel .copy-icon .icon {
+    width: 100%;
+    height: 100%;
+    background-color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.dfn-panel .copy-icon .icon::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 1px solid black;
+    background-color: #ccc;
+    opacity: 0.25;
+    transform: translate(3px, -3px);
+}
+
+.dfn-panel .copy-icon:active .icon::before {
+    opacity: 1;
+}
+
+.dfn-paneled[role="button"] { cursor: help; }
+
+.highlighted {
+    animation: target-fade 3s;
+}
+
+@keyframes target-fade {
+    from {
+        background-color: var(--dfnpanel-target-bg);
+        outline: 5px solid var(--dfnpanel-target-outline);
+    }
+    to {
+        color: var(--a-normal-text);
+        background-color: transparent;
+        outline: transparent;
+    }
+}
+</style>
+<style>/* Boilerplate: style-idl-highlighting */
+pre.idl.highlight {
+    background: var(--borderedblock-bg, var(--def-bg));
+}
+</style>
+<style>/* Boilerplate: style-issues */
+a[href].issue-return {
+    float: right;
+    float: inline-end;
+    color: var(--issueheading-text);
+    font-weight: bold;
+    text-decoration: none;
+}
+</style>
+<style>/* Boilerplate: style-md-lists */
+/* This is a weird hack for me not yet following the commonmark spec
+   regarding paragraph and lists. */
+[data-md] > :first-child {
+    margin-top: 0;
+}
+[data-md] > :last-child {
+    margin-bottom: 0;
+}
+</style>
+<style>/* Boilerplate: style-ref-hints */
+:root {
+    --ref-hint-bg: #ddd;
+    --ref-hint-text: var(--text);
+}
+@media (prefers-color-scheme: dark) {
+    :root {
+        --ref-hint-bg: #222;
+        --ref-hint-text: var(--text);
+    }
+}
+
+.ref-hint {
+    display: inline-block;
+    position: absolute;
+    z-index: 35;
+    width: 20em;
+    width: 300px;
+    height: auto;
+    max-height: 500px;
+    overflow: auto;
+    padding: 0.5em 0.5em;
+    font: small Helvetica Neue, sans-serif, Droid Sans Fallback;
+    background: var(--ref-hint-bg);
+    color: var(--ref-hint-text);
+    border: outset 0.2em;
+    white-space: normal; /* in case it's moved into a pre */
+}
+
+.ref-hint * { margin: 0; padding: 0; text-indent: 0; }
+
+.ref-hint ul { padding: 0 0 0 1em; list-style: none; }
+</style>
+<style>/* Boilerplate: style-selflinks */
+:root {
+    --selflink-text: white;
+    --selflink-bg: gray;
+    --selflink-hover-text: black;
+}
+.heading, .issue, .note, .example, li, dt {
+    position: relative;
+}
+a.self-link {
+    position: absolute;
+    top: 0;
+    left: calc(-1 * (3.5rem - 26px));
+    width: calc(3.5rem - 26px);
+    height: 2em;
+    text-align: center;
+    border: none;
+    transition: opacity .2s;
+    opacity: .5;
+}
+a.self-link:hover {
+    opacity: 1;
+}
+.heading > a.self-link {
+    font-size: 83%;
+}
+.example > a.self-link,
+.note > a.self-link,
+.issue > a.self-link {
+    /* These blocks are overflow:auto, so positioning outside
+       doesn't work. */
+    left: auto;
+    right: 0;
+}
+li > a.self-link {
+    left: calc(-1 * (3.5rem - 26px) - 2em);
+}
+dfn > a.self-link {
+    top: auto;
+    left: auto;
+    opacity: 0;
+    width: 1.5em;
+    height: 1.5em;
+    background: var(--selflink-bg);
+    color: var(--selflink-text);
+    font-style: normal;
+    transition: opacity .2s, background-color .2s, color .2s;
+}
+dfn:hover > a.self-link {
+    opacity: 1;
+}
+dfn > a.self-link:hover {
+    color: var(--selflink-hover-text);
+}
+
+a.self-link::before            { content: "¶"; }
+.heading > a.self-link::before { content: "§"; }
+dfn > a.self-link::before      { content: "#"; }
+</style>
+<style>/* Boilerplate: style-syntax-highlighting */
+code.highlight { padding: .1em; border-radius: .3em; }
+pre.highlight, pre > code.highlight { display: block; padding: 1em; margin: .5em 0; overflow: auto; border-radius: 0; }
+
+.highlight:not(.idl) { background: rgba(0, 0, 0, .03); }
+c-[a] { color: #990055 } /* Keyword.Declaration */
+c-[b] { color: #990055 } /* Keyword.Type */
+c-[c] { color: #708090 } /* Comment */
+c-[d] { color: #708090 } /* Comment.Multiline */
+c-[e] { color: #0077aa } /* Name.Attribute */
+c-[f] { color: #669900 } /* Name.Tag */
+c-[g] { color: #222222 } /* Name.Variable */
+c-[k] { color: #990055 } /* Keyword */
+c-[l] { color: #000000 } /* Literal */
+c-[m] { color: #000000 } /* Literal.Number */
+c-[n] { color: #0077aa } /* Name */
+c-[o] { color: #999999 } /* Operator */
+c-[p] { color: #999999 } /* Punctuation */
+c-[s] { color: #a67f59 } /* Literal.String */
+c-[t] { color: #a67f59 } /* Literal.String.Single */
+c-[u] { color: #a67f59 } /* Literal.String.Double */
+c-[cp] { color: #708090 } /* Comment.Preproc */
+c-[c1] { color: #708090 } /* Comment.Single */
+c-[cs] { color: #708090 } /* Comment.Special */
+c-[kc] { color: #990055 } /* Keyword.Constant */
+c-[kn] { color: #990055 } /* Keyword.Namespace */
+c-[kp] { color: #990055 } /* Keyword.Pseudo */
+c-[kr] { color: #990055 } /* Keyword.Reserved */
+c-[ld] { color: #000000 } /* Literal.Date */
+c-[nc] { color: #0077aa } /* Name.Class */
+c-[no] { color: #0077aa } /* Name.Constant */
+c-[nd] { color: #0077aa } /* Name.Decorator */
+c-[ni] { color: #0077aa } /* Name.Entity */
+c-[ne] { color: #0077aa } /* Name.Exception */
+c-[nf] { color: #0077aa } /* Name.Function */
+c-[nl] { color: #0077aa } /* Name.Label */
+c-[nn] { color: #0077aa } /* Name.Namespace */
+c-[py] { color: #0077aa } /* Name.Property */
+c-[ow] { color: #999999 } /* Operator.Word */
+c-[mb] { color: #000000 } /* Literal.Number.Bin */
+c-[mf] { color: #000000 } /* Literal.Number.Float */
+c-[mh] { color: #000000 } /* Literal.Number.Hex */
+c-[mi] { color: #000000 } /* Literal.Number.Integer */
+c-[mo] { color: #000000 } /* Literal.Number.Oct */
+c-[sb] { color: #a67f59 } /* Literal.String.Backtick */
+c-[sc] { color: #a67f59 } /* Literal.String.Char */
+c-[sd] { color: #a67f59 } /* Literal.String.Doc */
+c-[se] { color: #a67f59 } /* Literal.String.Escape */
+c-[sh] { color: #a67f59 } /* Literal.String.Heredoc */
+c-[si] { color: #a67f59 } /* Literal.String.Interpol */
+c-[sx] { color: #a67f59 } /* Literal.String.Other */
+c-[sr] { color: #a67f59 } /* Literal.String.Regex */
+c-[ss] { color: #a67f59 } /* Literal.String.Symbol */
+c-[vc] { color: #0077aa } /* Name.Variable.Class */
+c-[vg] { color: #0077aa } /* Name.Variable.Global */
+c-[vi] { color: #0077aa } /* Name.Variable.Instance */
+c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
+
+@media (prefers-color-scheme: dark) {
+    .highlight:not(.idl) { background: rgba(255, 255, 255, .05); }
+
+    c-[a] { color: #d33682 } /* Keyword.Declaration */
+    c-[b] { color: #d33682 } /* Keyword.Type */
+    c-[c] { color: #2aa198 } /* Comment */
+    c-[d] { color: #2aa198 } /* Comment.Multiline */
+    c-[e] { color: #268bd2 } /* Name.Attribute */
+    c-[f] { color: #b58900 } /* Name.Tag */
+    c-[g] { color: #cb4b16 } /* Name.Variable */
+    c-[k] { color: #d33682 } /* Keyword */
+    c-[l] { color: #657b83 } /* Literal */
+    c-[m] { color: #657b83 } /* Literal.Number */
+    c-[n] { color: #268bd2 } /* Name */
+    c-[o] { color: #657b83 } /* Operator */
+    c-[p] { color: #657b83 } /* Punctuation */
+    c-[s] { color: #6c71c4 } /* Literal.String */
+    c-[t] { color: #6c71c4 } /* Literal.String.Single */
+    c-[u] { color: #6c71c4 } /* Literal.String.Double */
+    c-[ch] { color: #2aa198 } /* Comment.Hashbang */
+    c-[cp] { color: #2aa198 } /* Comment.Preproc */
+    c-[cpf] { color: #2aa198 } /* Comment.PreprocFile */
+    c-[c1] { color: #2aa198 } /* Comment.Single */
+    c-[cs] { color: #2aa198 } /* Comment.Special */
+    c-[kc] { color: #d33682 } /* Keyword.Constant */
+    c-[kn] { color: #d33682 } /* Keyword.Namespace */
+    c-[kp] { color: #d33682 } /* Keyword.Pseudo */
+    c-[kr] { color: #d33682 } /* Keyword.Reserved */
+    c-[ld] { color: #657b83 } /* Literal.Date */
+    c-[nc] { color: #268bd2 } /* Name.Class */
+    c-[no] { color: #268bd2 } /* Name.Constant */
+    c-[nd] { color: #268bd2 } /* Name.Decorator */
+    c-[ni] { color: #268bd2 } /* Name.Entity */
+    c-[ne] { color: #268bd2 } /* Name.Exception */
+    c-[nf] { color: #268bd2 } /* Name.Function */
+    c-[nl] { color: #268bd2 } /* Name.Label */
+    c-[nn] { color: #268bd2 } /* Name.Namespace */
+    c-[py] { color: #268bd2 } /* Name.Property */
+    c-[ow] { color: #657b83 } /* Operator.Word */
+    c-[mb] { color: #657b83 } /* Literal.Number.Bin */
+    c-[mf] { color: #657b83 } /* Literal.Number.Float */
+    c-[mh] { color: #657b83 } /* Literal.Number.Hex */
+    c-[mi] { color: #657b83 } /* Literal.Number.Integer */
+    c-[mo] { color: #657b83 } /* Literal.Number.Oct */
+    c-[sa] { color: #6c71c4 } /* Literal.String.Affix */
+    c-[sb] { color: #6c71c4 } /* Literal.String.Backtick */
+    c-[sc] { color: #6c71c4 } /* Literal.String.Char */
+    c-[dl] { color: #6c71c4 } /* Literal.String.Delimiter */
+    c-[sd] { color: #6c71c4 } /* Literal.String.Doc */
+    c-[se] { color: #6c71c4 } /* Literal.String.Escape */
+    c-[sh] { color: #6c71c4 } /* Literal.String.Heredoc */
+    c-[si] { color: #6c71c4 } /* Literal.String.Interpol */
+    c-[sx] { color: #6c71c4 } /* Literal.String.Other */
+    c-[sr] { color: #6c71c4 } /* Literal.String.Regex */
+    c-[ss] { color: #6c71c4 } /* Literal.String.Symbol */
+    c-[fm] { color: #268bd2 } /* Name.Function.Magic */
+    c-[vc] { color: #cb4b16 } /* Name.Variable.Class */
+    c-[vg] { color: #cb4b16 } /* Name.Variable.Global */
+    c-[vi] { color: #cb4b16 } /* Name.Variable.Instance */
+    c-[vm] { color: #cb4b16 } /* Name.Variable.Magic */
+    c-[il] { color: #657b83 } /* Literal.Number.Integer.Long */
+}
+</style>
+ <body class="h-entry">
+  <div class="head">
+   <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2021/logos/W3C" width="72"> </a> </p>
+   <h1 class="p-name no-ref" id="title">Audio Session</h1>
+   <p id="w3c-state"><a href="https://www.w3.org/standards/types#ED">Editor’s Draft</a>, <time class="dt-updated" datetime="2024-10-03">3 October 2024</time></p>
+   <details open>
+    <summary>More details about this document</summary>
+    <div data-fill-with="spec-metadata">
+     <dl>
+      <dt>This version:
+      <dd><a class="u-url" href="https://w3c.github.io/audio-session/">https://w3c.github.io/audio-session/</a>
+      <dt>Issue Tracking:
+      <dd><a href="https://github.com/w3c/audio-session/issues/">GitHub</a>
+      <dt class="editor">Editors:
+      <dd class="editor p-author h-card vcard" data-editor-id="96458"><a class="p-name fn u-email email" href="mailto:youenn@apple.com">Youenn Fablet</a> (<a class="p-org org" href="https://www.apple.com/">Apple</a>)
+      <dd class="editor p-author h-card vcard" data-editor-id="92198"><a class="p-name fn u-email email" href="mailto:alwu@mozilla.com">Alastor Wu</a> (<a class="p-org org" href="https://www.mozilla.org">Mozilla</a>)
+     </dl>
+    </div>
+   </details>
+   <div data-fill-with="warning"></div>
+   <p class="copyright" data-fill-with="copyright"><a href="https://www.w3.org/policies/#copyright">Copyright</a> © 2024 <a href="https://www.w3.org/">World Wide Web Consortium</a>. <abbr title="World Wide Web Consortium">W3C</abbr><sup>®</sup> <a href="https://www.w3.org/policies/#Legal_Disclaimer">liability</a>, <a href="https://www.w3.org/policies/#W3C_Trademarks">trademark</a> and <a href="https://www.w3.org/copyright/software-license/" rel="license" title="W3C Software and Document License">permissive document license</a> rules apply. </p>
+   <hr title="Separator for header">
+  </div>
+  <div class="p-summary" data-fill-with="abstract">
+   <h2 class="no-num no-toc no-ref heading settled" id="abstract"><span class="content">Abstract</span></h2>
+   <p>This API defines an API surface for controlling how audio is rendered and interacts with other audio playing applications</p>
+  </div>
+  <h2 class="no-num no-toc no-ref heading settled" id="sotd"><span class="content">Status of this document</span></h2>
+  <div data-fill-with="status">
+   <p> <em>This section describes the status of this document at the time of its publication. A list of current <abbr title="World Wide Web Consortium">W3C</abbr> publications and the latest revision of this technical report can be found in the <a href="https://www.w3.org/TR/"><abbr title="World Wide Web Consortium">W3C</abbr> technical reports index</a> at https://www.w3.org/TR/.</em> </p>
+   <p> Feedback and comments on this specification are welcome. <a href="https://github.com/w3c/audio-session/issues">GitHub Issues</a> are preferred for discussion on this specification. Alternatively, you can send comments to the Media Working Group’s mailing-list, <a href="mailto:public-media-wg@w3.org">public-media-wg@w3.org</a> (<a href="https://lists.w3.org/Archives/Public/public-media-wg/">archives</a>).
+  This draft highlights some of the pending issues that are still to be discussed in the working group.
+  No decision has been taken on the outcome of these issues including whether they are valid. </p>
+   <p> This document was published by the <a href="https://www.w3.org/groups/wg/media">Media Working Group</a> as an Editor’s Draft.
+  This document is intended to become a <abbr title="World Wide Web Consortium">W3C</abbr> Recommendation. </p>
+   <p> Publication as an Editor’s Draft does not imply endorsement by <abbr title="World Wide Web Consortium">W3C</abbr> and its Members. </p>
+   <p> This document was produced by a group operating under the <a class="css" data-link-type="property" href="https://www.w3.org/policies/patent-policy/" id="sotd_patent">W3C Patent Policy</a>. <abbr title="World Wide Web Consortium">W3C</abbr> maintains a <a href="https://www.w3.org/groups/wg/media/ipr" rel="disclosure">public list of any patent disclosures</a> made in connection with the deliverables of the group; that page also includes instructions for disclosing a patent. An individual who has actual knowledge of a patent which the individual believes contains <a href="https://www.w3.org/policies/patent-policy/#def-essential">Essential Claim(s)</a> must disclose the information in accordance with <a href="https://www.w3.org/Consortium/Patent-Policy/#sec-Disclosure">section 6 of the <abbr title="World Wide Web Consortium">W3C</abbr> Patent Policy</a>. </p>
+   <p> This document is governed by the <a href="https://www.w3.org/policies/process/20231103/" id="w3c_process_revision">03 November 2023 W3C Process Document</a>. </p>
+   <p></p>
+  </div>
+  <div data-fill-with="at-risk"></div>
+  <nav data-fill-with="table-of-contents" id="toc">
+   <h2 class="no-num no-toc no-ref" id="contents">Table of Contents</h2>
+   <ol class="toc" role="directory">
+    <li><a href="#introduction"><span class="secno">1</span> <span class="content">Introduction</span></a>
+    <li>
+     <a href="#audiosession-interface"><span class="secno">2</span> <span class="content">The <code class="idl"><span>AudioSession</span></code> interface</span></a>
+     <ol class="toc">
+      <li><a href="#audio-session-types"><span class="secno">2.1</span> <span class="content">Audio session types</span></a>
+      <li><a href="#audio-session-states"><span class="secno">2.2</span> <span class="content">Audio session states</span></a>
+     </ol>
+    <li><a href="#extensions-to-navigator"><span class="secno">3</span> <span class="content">Extensions to the <code>Navigator</code> interface</span></a>
+    <li><a href="#audio-session-algorithms"><span class="secno">4</span> <span class="content">Audio session algorithms</span></a>
+    <li><a href="#privacy"><span class="secno">5</span> <span class="content">Privacy considerations</span></a>
+    <li><a href="#security"><span class="secno">6</span> <span class="content">Security considerations</span></a>
+    <li>
+     <a href="#examples"><span class="secno">7</span> <span class="content">Examples</span></a>
+     <ol class="toc">
+      <li><a href="#proactive-play-and-record-example"><span class="secno">7.1</span> <span class="content">A site sets its audio session type proactively to "play-and-record"</span></a>
+      <li><a href="#interrutpion-handling-example"><span class="secno">7.2</span> <span class="content">A site reacts upon interruption</span></a>
+     </ol>
+    <li><a href="#acknowledgements"><span class="secno">8</span> <span class="content">Acknowledgements</span></a>
+    <li>
+     <a href="#w3c-conformance"><span class="secno"></span> <span class="content">Conformance</span></a>
+     <ol class="toc">
+      <li><a href="#w3c-conventions"><span class="secno"></span> <span class="content">Document conventions</span></a>
+      <li><a href="#w3c-conformant-algorithms"><span class="secno"></span> <span class="content">Conformant Algorithms</span></a>
+     </ol>
+    <li>
+     <a href="#index"><span class="secno"></span> <span class="content">Index</span></a>
+     <ol class="toc">
+      <li><a href="#index-defined-here"><span class="secno"></span> <span class="content">Terms defined by this specification</span></a>
+      <li><a href="#index-defined-elsewhere"><span class="secno"></span> <span class="content">Terms defined by reference</span></a>
+     </ol>
+    <li>
+     <a href="#references"><span class="secno"></span> <span class="content">References</span></a>
+     <ol class="toc">
+      <li><a href="#normative"><span class="secno"></span> <span class="content">Normative References</span></a>
+     </ol>
+    <li><a href="#idl-index"><span class="secno"></span> <span class="content">IDL Index</span></a>
+   </ol>
+  </nav>
+  <main>
+   <h2 class="heading settled" data-level="1" id="introduction"><span class="secno">1. </span><span class="content">Introduction</span><a class="self-link" href="#introduction"></a></h2>
+   <p>People consume a lot of media (audio/video) and the Web is one of the primary means of consuming this type of content.
+However, media on the web does not integrate well with the platform.
+The Audio Session API helps to close the gap with platforms that have audio session/audio focus such as Android and iOS.
+This API will help by improving the audio-mixing of websites with native apps, so they can play on top of each other, or play exclusively.</p>
+   <p>Additionally, on some platforms the user agent will automatically manage the audio session for the site
+based on whether media elements are playing or not and which APIs are used for playing audio.
+In some cases this may not match user expectations, this API provides overrides to authors.</p>
+   <h2 class="heading settled" data-level="2" id="audiosession-interface"><span class="secno">2. </span><span class="content">The <code class="idl"><a data-link-type="idl" href="#audiosession" id="ref-for-audiosession">AudioSession</a></code> interface</span><a class="self-link" href="#audiosession-interface"></a></h2>
+   <p>An <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="audio-session">audio session</dfn> represents the playback of auditory media.
+An audio session can be of particular <a data-link-type="dfn" href="#audio-session-type" id="ref-for-audio-session-type">type</a> and in a given <a data-link-type="dfn" href="#audio-session-state" id="ref-for-audio-session-state">state</a>.
+An audio session manages the audio for a set of sources and sinks, named audio session <dfn class="dfn-paneled" data-dfn-for="audio session" data-dfn-type="dfn" data-export data-lt="element" id="audio-session-element">elements</dfn>.</p>
+   <p>An audio session <a data-link-type="dfn" href="#audio-session-element" id="ref-for-audio-session-element">element</a> has a number of properties. In particular it defines:</p>
+   <ul>
+    <li data-md>
+     <p>An audio session <dfn class="dfn-paneled" data-dfn-for="audio session" data-dfn-type="dfn" data-export id="audio-session-element-state-update-steps-list">element state update steps list</dfn> to be executed when the audio session state changes. By default, it is an empty list.</p>
+    <li data-md>
+     <p>An audio session <dfn class="dfn-paneled" data-dfn-for="audio session" data-dfn-type="dfn" data-export id="audio-session-element-state">element state</dfn> which is an <code class="idl"><a data-link-type="idl" href="#enumdef-audiosessionstate" id="ref-for-enumdef-audiosessionstate">AudioSessionState</a></code>.</p>
+   </ul>
+   <p><code class="idl"><a data-link-type="idl" href="#audiosession" id="ref-for-audiosession①">AudioSession</a></code> is the main interface for this API, which is accessed through the <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/system-state.html#navigator" id="ref-for-navigator">Navigator</a></code> interface (see <a href="#extensions-to-navigator">§ 3 Extensions to the Navigator interface</a>).</p>
+<pre class="idl highlight def">[<a class="idl-code" data-link-type="extended-attribute" href="https://webidl.spec.whatwg.org/#Exposed" id="ref-for-Exposed"><c- g>Exposed</c-></a>=<c- n>Window</c->]
+<c- b>interface</c-> <dfn class="dfn-paneled idl-code" data-dfn-type="interface" data-export id="audiosession"><code><c- g>AudioSession</c-></code></dfn> : <a data-link-type="idl-name" href="https://dom.spec.whatwg.org/#eventtarget" id="ref-for-eventtarget"><c- n>EventTarget</c-></a> {
+  <c- b>attribute</c-> <a data-link-type="idl-name" href="#enumdef-audiosessiontype" id="ref-for-enumdef-audiosessiontype"><c- n>AudioSessionType</c-></a> <dfn class="dfn-paneled idl-code" data-dfn-for="AudioSession" data-dfn-type="attribute" data-export data-type="AudioSessionType" id="dom-audiosession-type"><code><c- g>type</c-></code></dfn>;
+
+  <c- b>readonly</c-> <c- b>attribute</c-> <a data-link-type="idl-name" href="#enumdef-audiosessionstate" id="ref-for-enumdef-audiosessionstate①"><c- n>AudioSessionState</c-></a> <dfn class="dfn-paneled idl-code" data-dfn-for="AudioSession" data-dfn-type="attribute" data-export data-readonly data-type="AudioSessionState" id="dom-audiosession-state"><code><c- g>state</c-></code></dfn>;
+  <c- b>attribute</c-> <a data-link-type="idl-name" href="https://html.spec.whatwg.org/multipage/webappapis.html#eventhandler" id="ref-for-eventhandler"><c- n>EventHandler</c-></a> <dfn class="dfn-paneled idl-code" data-dfn-for="AudioSession" data-dfn-type="attribute" data-export data-type="EventHandler" id="dom-audiosession-onstatechange"><code><c- g>onstatechange</c-></code></dfn>;
+};
+</pre>
+   <p>To create an <code class="idl"><a data-link-type="idl" href="#audiosession" id="ref-for-audiosession②">AudioSession</a></code> object in <var>realm</var>, run the following steps:</p>
+   <ul>
+    <li data-md>
+     <p>Let <var>audioSession</var> be a new <code class="idl"><a data-link-type="idl" href="#audiosession" id="ref-for-audiosession③">AudioSession</a></code> object in <var>realm</var>, initalized with the following internal slots:</p>
+     <ul>
+      <li data-md>
+       <p><dfn class="dfn-paneled" data-dfn-type="dfn" data-export id="type">[[\type]]</dfn> to store the audio session= <a data-link-type="dfn" href="#audio-session-type" id="ref-for-audio-session-type①">type</a>, initialized to <code class="idl"><a data-link-type="idl" href="#dom-audiosessiontype-auto" id="ref-for-dom-audiosessiontype-auto">auto</a></code>.</p>
+      <li data-md>
+       <p><dfn class="dfn-paneled" data-dfn-type="dfn" data-export id="state">[[\state]]</dfn> to store the audio session <a data-link-type="dfn" href="#audio-session-state" id="ref-for-audio-session-state①">state</a>, initialized to <code class="idl"><a data-link-type="idl" href="#dom-audiosessionstate-inactive" id="ref-for-dom-audiosessionstate-inactive">inactive</a></code>.</p>
+      <li data-md>
+       <p><dfn class="dfn-paneled" data-dfn-type="dfn" data-export id="elements">[[\elements]]</dfn> to store the audio session <a data-link-type="dfn" href="#audio-session-element" id="ref-for-audio-session-element①">elements</a>, initialized to an empty list.</p>
+     </ul>
+    <li data-md>
+     <p>Return <var>audioSession</var>.</p>
+   </ul>
+   <p>Each <code class="idl"><a data-link-type="idl" href="#audiosession" id="ref-for-audiosession④">AudioSession</a></code> object is tied to its underlying <a data-link-type="dfn" href="#audio-session" id="ref-for-audio-session">audio session</a>.</p>
+   <p>The <code class="idl"><a data-link-type="idl" href="#audiosession" id="ref-for-audiosession⑤">AudioSession</a></code> state attribute reflects its <a data-link-type="dfn" href="#audio-session" id="ref-for-audio-session①">audio session</a> <a data-link-type="dfn" href="#audio-session-state" id="ref-for-audio-session-state②">state</a>.
+On getting, it MUST return the <code class="idl"><a data-link-type="idl" href="#audiosession" id="ref-for-audiosession⑥">AudioSession</a></code> <a data-link-type="dfn" href="#state" id="ref-for-state">[[\state]]</a> value.</p>
+   <p>The <code class="idl"><a data-link-type="idl" href="#audiosession" id="ref-for-audiosession⑦">AudioSession</a></code> type attribute reflects its <a data-link-type="dfn" href="#audio-session" id="ref-for-audio-session②">audio session</a> <a data-link-type="dfn" href="#audio-session-type" id="ref-for-audio-session-type②">type</a>, except for <code class="idl"><a data-link-type="idl" href="#dom-audiosessiontype-auto" id="ref-for-dom-audiosessiontype-auto①">auto</a></code>.
+On getting, it MUST return the <code class="idl"><a data-link-type="idl" href="#audiosession" id="ref-for-audiosession⑧">AudioSession</a></code> <a data-link-type="dfn" href="#type" id="ref-for-type">[[\type]]</a> value.
+On setting, it MUST run the following steps with <var>newValue</var> being the new value being set on <var>audioSession</var>:</p>
+   <ul>
+    <li data-md>
+     <p>If <var>audioSession</var>.<a data-link-type="dfn" href="#type" id="ref-for-type①">[[\type]]</a> is equal to <var>newValue</var>, abort these steps.</p>
+    <li data-md>
+     <p>Set <var>audioSession</var>.<a data-link-type="dfn" href="#type" id="ref-for-type②">[[\type]]</a> to <var>newValue</var>.</p>
+    <li data-md>
+     <p><a data-link-type="dfn" href="#update-all-audio-session-states" id="ref-for-update-all-audio-session-states">Update all audio session states</a> of <var>audioSession</var>’s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/document-sequences.html#top-level-browsing-context" id="ref-for-top-level-browsing-context">top-level browsing context</a> with <var>audioSession</var>.</p>
+    <li data-md>
+     <p><a data-link-type="dfn" href="#update-the-playback" id="ref-for-update-the-playback">Update the playback</a> of <var>audioSession</var> with <var>newValue</var>.</p>
+   </ul>
+   <h3 class="heading settled" data-level="2.1" id="audio-session-types"><span class="secno">2.1. </span><span class="content">Audio session types</span><a class="self-link" href="#audio-session-types"></a></h3>
+   <p>By convention, there are several different <a data-link-type="dfn" href="#audio-session" id="ref-for-audio-session③">audio session</a> <dfn class="dfn-paneled" data-dfn-for="audio session" data-dfn-type="dfn" data-export data-lt="type" id="audio-session-type">types</dfn> for different purposes.
+In the API, these are represented by the <code class="idl"><a data-link-type="idl" href="#enumdef-audiosessiontype" id="ref-for-enumdef-audiosessiontype①">AudioSessionType</a></code> enum:</p>
+   <dl>
+    <dt><dfn class="dfn-paneled idl-code" data-dfn-for="AudioSessionType" data-dfn-type="enum-value" data-export data-lt="&quot;playback&quot;|playback" id="dom-audiosessiontype-playback"><code>playback</code></dfn>
+    <dd>Playback audio, which is used for video or music playback, podcasts, etc. They should not mix with other playback audio. (Maybe) they should pause all other audio indefinitely.
+    <dt><dfn class="dfn-paneled idl-code" data-dfn-for="AudioSessionType" data-dfn-type="enum-value" data-export data-lt="&quot;transient&quot;|transient" id="dom-audiosessiontype-transient"><code>transient</code></dfn>
+    <dd>Transient audio, such as a notification ping. They usually should play on top of playback audio (and maybe also "duck" persistent audio).
+    <dt><dfn class="dfn-paneled idl-code" data-dfn-for="AudioSessionType" data-dfn-type="enum-value" data-export data-lt="&quot;transient-solo&quot;|transient-solo" id="dom-audiosessiontype-transient-solo"><code>transient-solo</code></dfn>
+    <dd>Transient solo audio, such as driving directions. They should pause/mute all other audio and play exclusively. When a transient-solo audio ended, it should resume the paused/muted audio.
+    <dt><dfn class="dfn-paneled idl-code" data-dfn-for="AudioSessionType" data-dfn-type="enum-value" data-export data-lt="&quot;ambient&quot;|ambient" id="dom-audiosessiontype-ambient"><code>ambient</code></dfn>
+    <dd>Ambient audio, which is mixable with other types of audio. This is useful in some special cases such as when the user wants to mix audios from multiple pages.
+    <dt><dfn class="dfn-paneled idl-code" data-dfn-for="AudioSessionType" data-dfn-type="enum-value" data-export data-lt="&quot;play-and-record&quot;|play-and-record" id="dom-audiosessiontype-play-and-record"><code>play-and-record</code></dfn>
+    <dd>Play and record audio, which is used for recording audio. This is useful in cases microphone is being used or in video conferencing applications.
+    <dt><dfn class="dfn-paneled idl-code" data-dfn-for="AudioSessionType" data-dfn-type="enum-value" data-export data-lt="&quot;auto&quot;|auto" id="dom-audiosessiontype-auto"><code>auto</code></dfn>
+    <dd>Auto lets the user agent choose the best audio session type according the use of audio by the web page. This is the type of the default <code class="idl"><a data-link-type="idl" href="#audiosession" id="ref-for-audiosession⑨">AudioSession</a></code>.
+   </dl>
+<pre class="idl highlight def"><c- b>enum</c-> <dfn class="dfn-paneled idl-code" data-dfn-type="enum" data-export id="enumdef-audiosessiontype"><code><c- g>AudioSessionType</c-></code></dfn> {
+  <a class="idl-code" data-link-type="enum-value" href="#dom-audiosessiontype-auto" id="ref-for-dom-audiosessiontype-auto②"><c- s>"auto"</c-></a>,
+  <a class="idl-code" data-link-type="enum-value" href="#dom-audiosessiontype-playback" id="ref-for-dom-audiosessiontype-playback"><c- s>"playback"</c-></a>,
+  <a class="idl-code" data-link-type="enum-value" href="#dom-audiosessiontype-transient" id="ref-for-dom-audiosessiontype-transient"><c- s>"transient"</c-></a>,
+  <a class="idl-code" data-link-type="enum-value" href="#dom-audiosessiontype-transient-solo" id="ref-for-dom-audiosessiontype-transient-solo"><c- s>"transient-solo"</c-></a>,
+  <a class="idl-code" data-link-type="enum-value" href="#dom-audiosessiontype-ambient" id="ref-for-dom-audiosessiontype-ambient"><c- s>"ambient"</c-></a>,
+  <a class="idl-code" data-link-type="enum-value" href="#dom-audiosessiontype-play-and-record" id="ref-for-dom-audiosessiontype-play-and-record"><c- s>"play-and-record"</c-></a>
+};
+</pre>
+   <p>An <code class="idl"><a data-link-type="idl" href="#enumdef-audiosessiontype" id="ref-for-enumdef-audiosessiontype②">AudioSessionType</a></code> is an <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="exclusive-type">exclusive type</dfn> if it is <code class="idl"><a data-link-type="idl" href="#dom-audiosessiontype-playback" id="ref-for-dom-audiosessiontype-playback①">playback</a></code> or <code class="idl"><a data-link-type="idl" href="#dom-audiosessiontype-play-and-record" id="ref-for-dom-audiosessiontype-play-and-record①">play-and-record</a></code>.</p>
+   <h3 class="heading settled" data-level="2.2" id="audio-session-states"><span class="secno">2.2. </span><span class="content">Audio session states</span><a class="self-link" href="#audio-session-states"></a></h3>
+   <p>An <a data-link-type="dfn" href="#audio-session" id="ref-for-audio-session④">audio session</a> can be in one of the following <dfn class="dfn-paneled" data-dfn-for="audio session" data-dfn-type="dfn" data-export id="audio-session-state">state</dfn> , which are represented in the API by the <code class="idl"><a data-link-type="idl" href="#enumdef-audiosessionstate" id="ref-for-enumdef-audiosessionstate②">AudioSessionState</a></code> enum:</p>
+   <dl>
+    <dt><dfn class="dfn-paneled idl-code" data-dfn-for="AudioSessionState" data-dfn-type="enum-value" data-export data-lt="&quot;active&quot;|active" id="dom-audiosessionstate-active"><code>active</code></dfn>
+    <dd>the <a data-link-type="dfn" href="#audio-session" id="ref-for-audio-session⑤">audio session</a> is playing sound.
+    <dt><dfn class="dfn-paneled idl-code" data-dfn-for="AudioSessionState" data-dfn-type="enum-value" data-export data-lt="&quot;interrupted&quot;|interrupted" id="dom-audiosessionstate-interrupted"><code>interrupted</code></dfn>
+    <dd>the <a data-link-type="dfn" href="#audio-session" id="ref-for-audio-session⑥">audio session</a> is not playing sound, but can resume when it will get uninterrupted.
+    <dt><dfn class="dfn-paneled idl-code" data-dfn-for="AudioSessionState" data-dfn-type="enum-value" data-export data-lt="&quot;inactive&quot;|inactive" id="dom-audiosessionstate-inactive"><code>inactive</code></dfn>
+    <dd>the <a data-link-type="dfn" href="#audio-session" id="ref-for-audio-session⑦">audio session</a> is not playing sound.
+   </dl>
+   <p>Each <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/document-sequences.html#browsing-context" id="ref-for-browsing-context">browsing context</a> has a default audio session which is used by the user agent to automatically set up the audio session parameters.
+The user agent will request or abandon audio focus when audio session <a data-link-type="dfn" href="#audio-session-element" id="ref-for-audio-session-element②">elements</a> start or finish playing.
+This default audio session is represented as the <a data-link-type="dfn" href="#associated-audiosession" id="ref-for-associated-audiosession">associated AudioSession</a> object that is exposed as <code class="idl"><a data-link-type="idl" href="#dom-navigator-audiosession" id="ref-for-dom-navigator-audiosession">navigator.audioSession</a></code>.</p>
+<pre class="idl highlight def"><c- b>enum</c-> <dfn class="dfn-paneled idl-code" data-dfn-type="enum" data-export id="enumdef-audiosessionstate"><code><c- g>AudioSessionState</c-></code></dfn> {
+  <a class="idl-code" data-link-type="enum-value" href="#dom-audiosessionstate-inactive" id="ref-for-dom-audiosessionstate-inactive①"><c- s>"inactive"</c-></a>,
+  <a class="idl-code" data-link-type="enum-value" href="#dom-audiosessionstate-active" id="ref-for-dom-audiosessionstate-active"><c- s>"active"</c-></a>,
+  <a class="idl-code" data-link-type="enum-value" href="#dom-audiosessionstate-interrupted" id="ref-for-dom-audiosessionstate-interrupted"><c- s>"interrupted"</c-></a>
+};
+</pre>
+   <h2 class="heading settled" data-level="3" id="extensions-to-navigator"><span class="secno">3. </span><span class="content">Extensions to the <code>Navigator</code> interface</span><a class="self-link" href="#extensions-to-navigator"></a></h2>
+   <p>Each <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/nav-history-apis.html#window" id="ref-for-window">Window</a></code> has an <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="associated-audiosession">associated AudioSession</dfn>, which is an <code class="idl"><a data-link-type="idl" href="#audiosession" id="ref-for-audiosession①⓪">AudioSession</a></code> object. Upon creation of the <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/nav-history-apis.html#window" id="ref-for-window①">Window</a></code> object, its <a data-link-type="dfn" href="#associated-audiosession" id="ref-for-associated-audiosession①">associated AudioSession</a> MUST be set to a newly created <code class="idl"><a data-link-type="idl" href="#audiosession" id="ref-for-audiosession①①">AudioSession</a></code> object with the <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/nav-history-apis.html#window" id="ref-for-window②">Window</a></code> object’s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-realm" id="ref-for-concept-relevant-realm">relevant realm</a>.</p>
+   <p>The <a data-link-type="dfn" href="#associated-audiosession" id="ref-for-associated-audiosession②">associated AudioSession</a> list of <a data-link-type="dfn" href="#audio-session-element" id="ref-for-audio-session-element③">elements</a> gets updated dynamically as audio sources and sinks are created and or removed.
+Objects such as <code class="idl"><a data-link-type="idl" href="https://webaudio.github.io/web-audio-api/#AudioContext" id="ref-for-AudioContext">AudioContext</a></code> or microphone <code class="idl"><a data-link-type="idl" href="https://w3c.github.io/mediacapture-main/#dom-mediastreamtrack" id="ref-for-dom-mediastreamtrack">MediaStreamTrack</a></code> are added to the <a data-link-type="dfn" href="#associated-audiosession" id="ref-for-associated-audiosession③">associated AudioSession</a> of their corresponding <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/nav-history-apis.html#window" id="ref-for-window③">Window</a></code> object.
+Similarly, an <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/media.html#htmlmediaelement" id="ref-for-htmlmediaelement">HTMLMediaElement</a></code> is added to the <a data-link-type="dfn" href="#associated-audiosession" id="ref-for-associated-audiosession④">associated AudioSession</a> of their <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/nav-history-apis.html#window" id="ref-for-window④">Window</a></code> object. When it does change, the <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/media.html#htmlmediaelement" id="ref-for-htmlmediaelement①">HTMLMediaElement</a></code> is removed from its previous <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/nav-history-apis.html#window" id="ref-for-window⑤">Window</a></code>'s <a data-link-type="dfn" href="#associated-audiosession" id="ref-for-associated-audiosession⑤">associated AudioSession</a> and added to its new <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/nav-history-apis.html#window" id="ref-for-window⑥">Window</a></code>'s <a data-link-type="dfn" href="#associated-audiosession" id="ref-for-associated-audiosession⑥">associated AudioSession</a> if any.</p>
+<pre class="idl highlight def">[<a class="idl-code" data-link-type="extended-attribute" href="https://webidl.spec.whatwg.org/#Exposed" id="ref-for-Exposed①"><c- g>Exposed</c-></a>=<c- n>Window</c->]
+<c- b>partial</c-> <c- b>interface</c-> <a class="idl-code" data-link-type="interface" href="https://html.spec.whatwg.org/multipage/system-state.html#navigator" id="ref-for-navigator①"><c- g>Navigator</c-></a> {
+  // The default audio session that the user agent will use when media elements start/stop playing.
+  <c- b>readonly</c-> <c- b>attribute</c-> <a data-link-type="idl-name" href="#audiosession" id="ref-for-audiosession①②"><c- n>AudioSession</c-></a> <dfn class="dfn-paneled idl-code" data-dfn-for="Navigator" data-dfn-type="attribute" data-export data-readonly data-type="AudioSession" id="dom-navigator-audiosession"><code><c- g>audioSession</c-></code></dfn>;
+};
+</pre>
+   <h2 class="heading settled" data-level="4" id="audio-session-algorithms"><span class="secno">4. </span><span class="content">Audio session algorithms</span><a class="self-link" href="#audio-session-algorithms"></a></h2>
+   <p>To <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="update-the-state">update the state</dfn> of <var>audioSession</var> to <var>newState</var>, the user agent MUST run the following steps:</p>
+   <ul>
+    <li data-md>
+     <p>If <var>audioSession</var>.<a data-link-type="dfn" href="#state" id="ref-for-state①">[[\state]]</a> is already <var>newState</var>, abort these steps.</p>
+    <li data-md>
+     <p>Set <var>audioSession</var>.<a data-link-type="dfn" href="#state" id="ref-for-state②">[[\state]]</a> to <var>newState</var>.</p>
+    <li data-md>
+     <p><a data-link-type="dfn" href="#update-all-audio-session-states" id="ref-for-update-all-audio-session-states①">Update all audio session states</a> of <var>audioSession</var>’s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/document-sequences.html#top-level-browsing-context" id="ref-for-top-level-browsing-context①">top-level browsing context</a> with <var>audioSession</var>.</p>
+    <li data-md>
+     <p>For each <var>element</var> of <var>audioSession</var>.<a data-link-type="dfn" href="#elements" id="ref-for-elements">[[\elements]]</a>, run <var>element</var>’s <a data-link-type="dfn" href="#audio-session-element-state-update-steps-list" id="ref-for-audio-session-element-state-update-steps-list">state update steps</a>.</p>
+    <li data-md>
+     <p>Fire an event named statechange on <var>audioSession</var>.</p>
+   </ul>
+   <p>To <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="update-all-audio-session-states">update all audio session states</dfn> of a <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/document-sequences.html#browsing-context" id="ref-for-browsing-context①">browsing context</a> named <var>context</var> with <var>updatedAudioSession</var>, run the following steps:</p>
+   <ul>
+    <li data-md>
+     <p>If <var>updatedAudioSession</var>.<a data-link-type="dfn" href="#type" id="ref-for-type③">[[\type]]</a> is not an <a data-link-type="dfn" href="#exclusive-type" id="ref-for-exclusive-type">exclusive type</a> or <var>updatedAudioSession</var>.<a data-link-type="dfn" href="#state" id="ref-for-state③">[[\state]]</a> is not <code class="idl"><a data-link-type="idl" href="#dom-audiosessionstate-active" id="ref-for-dom-audiosessionstate-active①">active</a></code>, abort these steps.</p>
+    <li data-md>
+     <p>Let <var>audioSession</var> be <var>context</var>’s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/document-sequences.html#nav-window" id="ref-for-nav-window">active window</a>'s <a data-link-type="dfn" href="#associated-audiosession" id="ref-for-associated-audiosession⑦">associated AudioSession</a>.</p>
+    <li data-md>
+     <p>If <var>audioSession</var> is not <var>updatedAudioSession</var>, <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#queue-a-task" id="ref-for-queue-a-task">queue a task</a> to run the following step:</p>
+     <ul>
+      <li data-md>
+       <p>If <var>audioSession</var>.<a data-link-type="dfn" href="#state" id="ref-for-state④">[[\state]]</a> is not <code class="idl"><a data-link-type="idl" href="#dom-audiosessionstate-active" id="ref-for-dom-audiosessionstate-active②">active</a></code>, abort these steps.</p>
+      <li data-md>
+       <p>Let <var>type</var> be the result of <a data-link-type="dfn" href="#compute-the-audio-session-type" id="ref-for-compute-the-audio-session-type">computing the audio session type</a> with <var>audioSession</var>.</p>
+      <li data-md>
+       <p>If <var>type</var> is an <a data-link-type="dfn" href="#exclusive-type" id="ref-for-exclusive-type①">exclusive type</a>, <a data-link-type="dfn" href="#update-the-state" id="ref-for-update-the-state">update the state</a> of <var>audioSession</var> with <code class="idl"><a data-link-type="idl" href="#dom-audiosessionstate-interrupted" id="ref-for-dom-audiosessionstate-interrupted①">interrupted</a></code>.</p>
+     </ul>
+    <li data-md>
+     <p>For each <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/document-sequences.html#browsing-context" id="ref-for-browsing-context②">browsing context</a> child named <var>childContext</var> of <var>context</var>, <a data-link-type="dfn" href="#update-all-audio-session-states" id="ref-for-update-all-audio-session-states②">update all audio session states</a> of <var>childContext</var> with <var>updatedAudioSession</var>.</p>
+   </ul>
+   <p>When one of an <var>audioSession</var>’s <a data-link-type="dfn" href="#audio-session-element" id="ref-for-audio-session-element④">elements</a> state changes, the user agent MUST queue a task to run the following steps:</p>
+   <ul>
+    <li data-md>
+     <p>Let <var>newState</var> be <code class="idl"><a data-link-type="idl" href="#dom-audiosessionstate-inactive" id="ref-for-dom-audiosessionstate-inactive②">inactive</a></code>.</p>
+    <li data-md>
+     <p>If any <var>element</var> of <var>audioSession</var>.<a data-link-type="dfn" href="#elements" id="ref-for-elements①">[[\elements]]</a> has a <a data-link-type="dfn" href="#audio-session-element-state" id="ref-for-audio-session-element-state">state</a> of <code class="idl"><a data-link-type="idl" href="#dom-audiosessionstate-active" id="ref-for-dom-audiosessionstate-active③">active</a></code>, set <var>newState</var> to <code class="idl"><a data-link-type="idl" href="#dom-audiosessionstate-active" id="ref-for-dom-audiosessionstate-active④">active</a></code>.</p>
+    <li data-md>
+     <p>Otherwise, if any <var>element</var> of <var>audioSession</var>.<a data-link-type="dfn" href="#elements" id="ref-for-elements②">[[\elements]]</a> has a <a data-link-type="dfn" href="#audio-session-element-state" id="ref-for-audio-session-element-state①">state</a> of <code class="idl"><a data-link-type="idl" href="#dom-audiosessionstate-interrupted" id="ref-for-dom-audiosessionstate-interrupted②">interrupted</a></code>, set <var>newState</var> to <code class="idl"><a data-link-type="idl" href="#dom-audiosessionstate-interrupted" id="ref-for-dom-audiosessionstate-interrupted③">interrupted</a></code>.</p>
+    <li data-md>
+     <p><a data-link-type="dfn" href="#update-the-state" id="ref-for-update-the-state①">Update the state</a> of <var>audioSession</var> with <var>newState</var>.</p>
+   </ul>
+   <p>To <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="compute-the-audio-session-type">compute the audio session type</dfn> with <var>audioSession</var>, the user agent MUST run the following steps:</p>
+   <ul>
+    <li data-md>
+     <p>If <var>audioSession</var>.<a data-link-type="dfn" href="#type" id="ref-for-type④">[[\type]]</a> is not <code class="idl"><a data-link-type="idl" href="#dom-audiosessiontype-auto" id="ref-for-dom-audiosessiontype-auto③">auto</a></code>, return <var>audioSession</var>.<a data-link-type="dfn" href="#type" id="ref-for-type⑤">[[\type]]</a>.</p>
+    <li data-md>
+     <p>If any <var>element</var> of <var>audioSession</var>.<a data-link-type="dfn" href="#elements" id="ref-for-elements③">[[\elements]]</a> is a live, not muted, microphone capture <code class="idl"><a data-link-type="idl" href="https://w3c.github.io/mediacapture-main/#dom-mediastreamtrack" id="ref-for-dom-mediastreamtrack①">MediaStreamTrack</a></code>, return <code class="idl"><a data-link-type="idl" href="#dom-audiosessiontype-play-and-record" id="ref-for-dom-audiosessiontype-play-and-record②">play-and-record</a></code>.</p>
+    <li data-md>
+     <p>If any <var>element</var> of <var>audioSession</var>.<a data-link-type="dfn" href="#elements" id="ref-for-elements④">[[\elements]]</a> is an audible <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/media.html#htmlmediaelement" id="ref-for-htmlmediaelement②">HTMLMediaElement</a></code>, return <code class="idl"><a data-link-type="idl" href="#dom-audiosessiontype-playback" id="ref-for-dom-audiosessiontype-playback②">playback</a></code>.</p>
+    <li data-md>
+     <p>If any <var>element</var> of <var>audioSession</var>.<a data-link-type="dfn" href="#elements" id="ref-for-elements⑤">[[\elements]]</a> is an audible <code class="idl"><a data-link-type="idl" href="https://webaudio.github.io/web-audio-api/#AudioContext" id="ref-for-AudioContext①">AudioContext</a></code>, return <code class="idl"><a data-link-type="idl" href="#dom-audiosessiontype-transient" id="ref-for-dom-audiosessiontype-transient①">transient</a></code>.</p>
+    <li data-md>
+     <p>Return <code class="idl"><a data-link-type="idl" href="#dom-audiosessiontype-auto" id="ref-for-dom-audiosessiontype-auto④">auto</a></code>.</p>
+   </ul>
+   <p>To <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="update-the-playback">update the playback</dfn> of <var>audioSession</var> with <var>newValue</var>, the user agent MUST run the following steps:</p>
+   <ul>
+    <li data-md>
+     <p>Let <var>type</var> be the result of <a data-link-type="dfn" href="#compute-the-audio-session-type" id="ref-for-compute-the-audio-session-type①">computing the audio session type</a> with <var>audioSession</var>.</p>
+    <li data-md>
+     <p><a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/infrastructure.html#in-parallel" id="ref-for-in-parallel">In parallel</a>, update the plaback of <var>audioSession</var>’s <a data-link-type="dfn" href="#audio-session" id="ref-for-audio-session⑧">audio session</a> with <var>type</var>.</p>
+   </ul>
+   <p>To <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="compute-the-active-audio-session">compute the active audio session</dfn> of a <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/document-sequences.html#browsing-context" id="ref-for-browsing-context③">browsing context</a> named <var>context</var> with an optional <var>selectedAudioSession</var>, the user agent MUST run the following steps:</p>
+   <ul>
+    <li data-md>
+     <p>If <var>selectedAudioSession</var> is not defined, set it to <code>null</code>.</p>
+    <li data-md>
+     <p>Let <var>audioSession</var> be <var>context</var>’s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/document-sequences.html#nav-window" id="ref-for-nav-window①">active window</a>'s <a data-link-type="dfn" href="#associated-audiosession" id="ref-for-associated-audiosession⑧">associated AudioSession</a>.</p>
+    <li data-md>
+     <p>If <var>audioSession</var>.<a data-link-type="dfn" href="#state" id="ref-for-state⑤">[[\state]]</a> is <code class="idl"><a data-link-type="idl" href="#dom-audiosessionstate-active" id="ref-for-dom-audiosessionstate-active⑤">active</a></code> run these steps:</p>
+     <ul>
+      <li data-md>
+       <p>If <var>audioSession</var>.<a data-link-type="dfn" href="#type" id="ref-for-type⑥">[[\type]]</a> is an <a data-link-type="dfn" href="#exclusive-type" id="ref-for-exclusive-type②">exclusive type</a>, return <var>audioSession</var>.</p>
+      <li data-md>
+       <p>If <var>selectedAudioSession</var> is not <code>null</code>, abort these steps.</p>
+      <li data-md>
+       <p>If the result of <a data-link-type="dfn" href="#compute-the-audio-session-type" id="ref-for-compute-the-audio-session-type②">computing the audio session type</a> with <var>audioSession</var> is an <a data-link-type="dfn" href="#exclusive-type" id="ref-for-exclusive-type③">exclusive type</a>, set <var>selectedAudioSession</var> to <var>audioSession</var>.</p>
+     </ul>
+    <li data-md>
+     <p>For each <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/document-sequences.html#browsing-context" id="ref-for-browsing-context④">browsing context</a> child named <var>childContext</var> of <var>context</var>, set <var>selectedAudioSession</var> to the result of <a data-link-type="dfn" href="#compute-the-active-audio-session" id="ref-for-compute-the-active-audio-session">computing the active audio session</a> of <var>childContext</var> with <var>selectedAudioSession</var>.</p>
+    <li data-md>
+     <p>Return <var>selectedAudioSession</var>.</p>
+   </ul>
+   <p>Given a <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/document-sequences.html#top-level-browsing-context" id="ref-for-top-level-browsing-context②">top-level browsing context</a> named <var>context</var>, its <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="active-audio-session">active audio session</dfn> is the result of <a data-link-type="dfn" href="#compute-the-active-audio-session" id="ref-for-compute-the-active-audio-session①">computing the active audio session</a> with <var>context</var>.</p>
+   <p>A <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/document-sequences.html#top-level-browsing-context" id="ref-for-top-level-browsing-context③">top-level browsing context</a> is said to have <dfn class="dfn-paneled" data-dfn-for="audio session" data-dfn-type="dfn" data-export id="audio-session-audio-focus">audio focus</dfn> if its <a data-link-type="dfn" href="#active-audio-session" id="ref-for-active-audio-session">active audio session</a> is not <code>null</code>.</p>
+   <div class="note" role="note"> User agents can decide whether to allow several <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/document-sequences.html#top-level-browsing-context" id="ref-for-top-level-browsing-context④">top-level browsing context</a> to have <a data-link-type="dfn" href="#audio-session-audio-focus" id="ref-for-audio-session-audio-focus">audio focus</a>, or to enforce that only a single <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/document-sequences.html#top-level-browsing-context" id="ref-for-top-level-browsing-context⑤">top-level browsing context</a> has <a data-link-type="dfn" href="#audio-session-audio-focus" id="ref-for-audio-session-audio-focus①">audio focus</a> at any given time. This specification only ensures that, within a <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/document-sequences.html#top-level-browsing-context" id="ref-for-top-level-browsing-context⑥">top-level browsing context</a>, there can be only one <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/document-sequences.html#browsing-context" id="ref-for-browsing-context⑤">browsing context</a> having <a data-link-type="dfn" href="#audio-session-audio-focus" id="ref-for-audio-session-audio-focus②">audio focus</a>. </div>
+   <h2 class="heading settled" data-level="5" id="privacy"><span class="secno">5. </span><span class="content">Privacy considerations</span><a class="self-link" href="#privacy"></a></h2>
+   <h2 class="heading settled" data-level="6" id="security"><span class="secno">6. </span><span class="content">Security considerations</span><a class="self-link" href="#security"></a></h2>
+   <h2 class="heading settled" data-level="7" id="examples"><span class="secno">7. </span><span class="content">Examples</span><a class="self-link" href="#examples"></a></h2>
+   <h3 class="heading settled" data-level="7.1" id="proactive-play-and-record-example"><span class="secno">7.1. </span><span class="content">A site sets its audio session type proactively to "play-and-record"</span><a class="self-link" href="#proactive-play-and-record-example"></a></h3>
+<pre class="language-javascript highlight">navigator<c- p>.</c->audioSession<c- p>.</c->type <c- o>=</c-> <c- t>'play-and-record'</c-><c- p>;</c->
+<c- c1>// From now on, volume might be set based on 'play-and-record'.</c->
+<c- p>...</c->
+<c- c1>// Start playing remote media</c->
+remoteVideo<c- p>.</c->srcObject <c- o>=</c-> remoteMediaStream<c- p>;</c->
+remoteVideo<c- p>.</c->play<c- p>();</c->
+<c- c1>// Start capturing</c->
+navigator<c- p>.</c->mediaDevices
+  <c- p>.</c->getUserMedia<c- p>({</c-> audio<c- o>:</c-> <c- kc>true</c-><c- p>,</c-> video<c- o>:</c-> <c- kc>true</c-> <c- p>})</c->
+  <c- p>.</c->then<c- p>((</c->stream<c- p>)</c-> <c- p>=></c-> <c- p>{</c->
+    localVideo<c- p>.</c->srcObject <c- o>=</c-> stream<c- p>;</c->
+  <c- p>});</c->
+</pre>
+   <h3 class="heading settled" data-level="7.2" id="interrutpion-handling-example"><span class="secno">7.2. </span><span class="content">A site reacts upon interruption</span><a class="self-link" href="#interrutpion-handling-example"></a></h3>
+<pre class="language-javascript highlight">navigator<c- p>.</c->audioSession<c- p>.</c->type <c- o>=</c-> <c- u>"play-and-record"</c-><c- p>;</c->
+<c- c1>// From now on, volume might be set based on 'play-and-record'.</c->
+<c- p>...</c->
+<c- c1>// Start playing remote media</c->
+remoteVideo<c- p>.</c->srcObject <c- o>=</c-> remoteMediaStream<c- p>;</c->
+remoteVideo<c- p>.</c->play<c- p>();</c->
+<c- c1>// Start capturing</c->
+navigator<c- p>.</c->mediaDevices
+  <c- p>.</c->getUserMedia<c- p>({</c-> audio<c- o>:</c-> <c- kc>true</c-><c- p>,</c-> video<c- o>:</c-> <c- kc>true</c-> <c- p>})</c->
+  <c- p>.</c->then<c- p>((</c->stream<c- p>)</c-> <c- p>=></c-> <c- p>{</c->
+    localVideo<c- p>.</c->srcObject <c- o>=</c-> stream<c- p>;</c->
+  <c- p>});</c->
+
+navigator<c- p>.</c->audioSession<c- p>.</c->onstatechange <c- o>=</c-> <c- k>async</c-> <c- p>()</c-> <c- p>=></c-> <c- p>{</c->
+  <c- k>if</c-> <c- p>(</c->navigator<c- p>.</c->audioSession<c- p>.</c->state <c- o>===</c-> <c- u>"interrupted"</c-><c- p>)</c-> <c- p>{</c->
+    localVideo<c- p>.</c->pause<c- p>();</c->
+    remoteVideo<c- p>.</c->pause<c- p>();</c->
+    <c- c1>// Make it clear to the user that the call is interrupted.</c->
+    showInterruptedBanner<c- p>();</c->
+    <c- k>for</c-> <c- p>(</c-><c- a>const</c-> track <c- k>of</c-> localVideo<c- p>.</c->srcObject<c- p>.</c->getTracks<c- p>())</c-> <c- p>{</c->
+      track<c- p>.</c->enabled <c- o>=</c-> <c- kc>false</c-><c- p>;</c->
+    <c- p>}</c->
+  <c- p>}</c-> <c- k>else</c-> <c- p>{</c->
+    <c- c1>// Let user decide when to restart the call.</c->
+    <c- a>const</c-> shouldRestart <c- o>=</c-> <c- k>await</c-> showOptionalRestartBanner<c- p>();</c->
+    <c- k>if</c-> <c- p>(</c-><c- o>!</c->shouldRestart<c- p>)</c-> <c- p>{</c->
+      <c- k>return</c-><c- p>;</c->
+    <c- p>}</c->
+    <c- k>for</c-> <c- p>(</c-><c- a>const</c-> track <c- k>of</c-> localVideo<c- p>.</c->srcObject<c- p>.</c->getTracks<c- p>())</c-> <c- p>{</c->
+      track<c- p>.</c->enabled <c- o>=</c-> <c- kc>true</c-><c- p>;</c->
+    <c- p>}</c->
+    localVideo<c- p>.</c->play<c- p>();</c->
+    remoteVideo<c- p>.</c->play<c- p>();</c->
+  <c- p>}</c->
+<c- p>};</c->
+</pre>
+   <h2 class="heading settled" data-level="8" id="acknowledgements"><span class="secno">8. </span><span class="content">Acknowledgements</span><a class="self-link" href="#acknowledgements"></a></h2>
+   <p>The Working Group acknowledges the following people for their invaluable contributions to this specification:</p>
+   <ul>
+    <li data-md>
+     <p>Becca Hughes</p>
+    <li data-md>
+     <p>Mounir Lamouri</p>
+    <li data-md>
+     <p>Zhiqiang Zhang</p>
+   </ul>
+  </main>
+  <div data-fill-with="conformance">
+   <h2 class="no-ref no-num heading settled" id="w3c-conformance"><span class="content">Conformance</span><a class="self-link" href="#w3c-conformance"></a></h2>
+   <h3 class="no-ref no-num heading settled" id="w3c-conventions"><span class="content">Document conventions</span><a class="self-link" href="#w3c-conventions"></a></h3>
+   <p>Conformance requirements are expressed
+    with a combination of descriptive assertions
+    and RFC 2119 terminology.
+    The key words “MUST”, “MUST NOT”, “REQUIRED”, “SHALL”, “SHALL NOT”, “SHOULD”, “SHOULD NOT”, “RECOMMENDED”, “MAY”, and “OPTIONAL”
+    in the normative parts of this document
+    are to be interpreted as described in RFC 2119.
+    However, for readability,
+    these words do not appear in all uppercase letters in this specification. </p>
+   <p>All of the text of this specification is normative
+    except sections explicitly marked as non-normative, examples, and notes. <a data-link-type="biblio" href="#biblio-rfc2119" title="Key words for use in RFCs to Indicate Requirement Levels">[RFC2119]</a> </p>
+   <p>Examples in this specification are introduced with the words “for example”
+    or are set apart from the normative text
+    with <code>class="example"</code>,
+    like this: </p>
+   <div class="example" id="w3c-example">
+    <a class="self-link" href="#w3c-example"></a> 
+    <p>This is an example of an informative example. </p>
+   </div>
+   <p>Informative notes begin with the word “Note”
+    and are set apart from the normative text
+    with <code>class="note"</code>,
+    like this: </p>
+   <p class="note" role="note">Note, this is an informative note.</p>
+   <section>
+    <h3 class="no-ref no-num heading settled" id="w3c-conformant-algorithms"><span class="content">Conformant Algorithms</span><a class="self-link" href="#w3c-conformant-algorithms"></a></h3>
+    <p>Requirements phrased in the imperative as part of algorithms
+    (such as "strip any leading space characters"
+    or "return false and abort these steps")
+    are to be interpreted with the meaning of the key word
+    ("must", "should", "may", etc)
+    used in introducing the algorithm. </p>
+    <p>Conformance requirements phrased as algorithms or specific steps
+    can be implemented in any manner,
+    so long as the end result is equivalent.
+    In particular, the algorithms defined in this specification
+    are intended to be easy to understand
+    and are not intended to be performant.
+    Implementers are encouraged to optimize. </p>
+   </section>
+  </div>
+  <script src="https://www.w3.org/scripts/TR/2021/fixup.js"></script>
+  <h2 class="no-num no-ref heading settled" id="index"><span class="content">Index</span><a class="self-link" href="#index"></a></h2>
+  <h3 class="no-num no-ref heading settled" id="index-defined-here"><span class="content">Terms defined by this specification</span><a class="self-link" href="#index-defined-here"></a></h3>
+  <ul class="index">
+   <li><a href="#dom-audiosessionstate-active">"active"</a><span>, in § 2.2</span>
+   <li><a href="#dom-audiosessionstate-active">active</a><span>, in § 2.2</span>
+   <li><a href="#active-audio-session">active audio session</a><span>, in § 4</span>
+   <li><a href="#dom-audiosessiontype-ambient">"ambient"</a><span>, in § 2.1</span>
+   <li><a href="#dom-audiosessiontype-ambient">ambient</a><span>, in § 2.1</span>
+   <li><a href="#associated-audiosession">associated AudioSession</a><span>, in § 3</span>
+   <li><a href="#audio-session-audio-focus">audio focus</a><span>, in § 4</span>
+   <li><a href="#audio-session">audio session</a><span>, in § 2</span>
+   <li><a href="#audiosession">AudioSession</a><span>, in § 2</span>
+   <li><a href="#dom-navigator-audiosession">audioSession</a><span>, in § 3</span>
+   <li><a href="#enumdef-audiosessionstate">AudioSessionState</a><span>, in § 2.2</span>
+   <li><a href="#enumdef-audiosessiontype">AudioSessionType</a><span>, in § 2.1</span>
+   <li><a href="#dom-audiosessiontype-auto">"auto"</a><span>, in § 2.1</span>
+   <li><a href="#dom-audiosessiontype-auto">auto</a><span>, in § 2.1</span>
+   <li><a href="#compute-the-active-audio-session">compute the active audio session</a><span>, in § 4</span>
+   <li><a href="#compute-the-audio-session-type">compute the audio session type</a><span>, in § 4</span>
+   <li><a href="#audio-session-element">element</a><span>, in § 2</span>
+   <li><a href="#elements">[[\elements]]</a><span>, in § 2</span>
+   <li><a href="#audio-session-element-state">element state</a><span>, in § 2</span>
+   <li><a href="#audio-session-element-state-update-steps-list">element state update steps list</a><span>, in § 2</span>
+   <li><a href="#exclusive-type">exclusive type</a><span>, in § 2.1</span>
+   <li><a href="#dom-audiosessionstate-inactive">"inactive"</a><span>, in § 2.2</span>
+   <li><a href="#dom-audiosessionstate-inactive">inactive</a><span>, in § 2.2</span>
+   <li><a href="#dom-audiosessionstate-interrupted">"interrupted"</a><span>, in § 2.2</span>
+   <li><a href="#dom-audiosessionstate-interrupted">interrupted</a><span>, in § 2.2</span>
+   <li><a href="#dom-audiosession-onstatechange">onstatechange</a><span>, in § 2</span>
+   <li><a href="#dom-audiosessiontype-play-and-record">"play-and-record"</a><span>, in § 2.1</span>
+   <li><a href="#dom-audiosessiontype-play-and-record">play-and-record</a><span>, in § 2.1</span>
+   <li><a href="#dom-audiosessiontype-playback">"playback"</a><span>, in § 2.1</span>
+   <li><a href="#dom-audiosessiontype-playback">playback</a><span>, in § 2.1</span>
+   <li><a href="#state">[[\state]]</a><span>, in § 2</span>
+   <li>
+    state
+    <ul>
+     <li><a href="#dom-audiosession-state">attribute for AudioSession</a><span>, in § 2</span>
+     <li><a href="#audio-session-state">dfn for audio session</a><span>, in § 2.2</span>
+    </ul>
+   <li><a href="#dom-audiosessiontype-transient">"transient"</a><span>, in § 2.1</span>
+   <li><a href="#dom-audiosessiontype-transient">transient</a><span>, in § 2.1</span>
+   <li><a href="#dom-audiosessiontype-transient-solo">"transient-solo"</a><span>, in § 2.1</span>
+   <li><a href="#dom-audiosessiontype-transient-solo">transient-solo</a><span>, in § 2.1</span>
+   <li><a href="#type">[[\type]]</a><span>, in § 2</span>
+   <li>
+    type
+    <ul>
+     <li><a href="#dom-audiosession-type">attribute for AudioSession</a><span>, in § 2</span>
+     <li><a href="#audio-session-type">dfn for audio session</a><span>, in § 2.1</span>
+    </ul>
+   <li><a href="#update-all-audio-session-states">update all audio session states</a><span>, in § 4</span>
+   <li><a href="#update-the-playback">update the playback</a><span>, in § 4</span>
+   <li><a href="#update-the-state">update the state</a><span>, in § 4</span>
+  </ul>
+  <h3 class="no-num no-ref heading settled" id="index-defined-elsewhere"><span class="content">Terms defined by reference</span><a class="self-link" href="#index-defined-elsewhere"></a></h3>
+  <ul class="index">
+   <li>
+    <a data-link-type="biblio">[DOM]</a> defines the following terms:
+    <ul>
+     <li><span class="dfn-paneled" id="2bc0cdf4">EventTarget</span>
+    </ul>
+   <li>
+    <a data-link-type="biblio">[HTML]</a> defines the following terms:
+    <ul>
+     <li><span class="dfn-paneled" id="f0951476">EventHandler</span>
+     <li><span class="dfn-paneled" id="1076ec40">HTMLMediaElement</span>
+     <li><span class="dfn-paneled" id="be0c27b2">Navigator</span>
+     <li><span class="dfn-paneled" id="5d7209e9">Window</span>
+     <li><span class="dfn-paneled" id="101c721c">active window</span>
+     <li><span class="dfn-paneled" id="0d0390b4">browsing context</span>
+     <li><span class="dfn-paneled" id="a72449dd">in parallel</span>
+     <li><span class="dfn-paneled" id="9a517a7d">queue a task</span>
+     <li><span class="dfn-paneled" id="5991ccfb">relevant realm</span>
+     <li><span class="dfn-paneled" id="ae2a6342">top-level browsing context</span>
+    </ul>
+   <li>
+    <a data-link-type="biblio">[MEDIACAPTURE-STREAMS]</a> defines the following terms:
+    <ul>
+     <li><span class="dfn-paneled" id="bc1e4fa1">MediaStreamTrack</span>
+    </ul>
+   <li>
+    <a data-link-type="biblio">[WEBAUDIO]</a> defines the following terms:
+    <ul>
+     <li><span class="dfn-paneled" id="fabc7040">AudioContext</span>
+    </ul>
+   <li>
+    <a data-link-type="biblio">[WEBIDL]</a> defines the following terms:
+    <ul>
+     <li><span class="dfn-paneled" id="889e932f">Exposed</span>
+    </ul>
+  </ul>
+  <h2 class="no-num no-ref heading settled" id="references"><span class="content">References</span><a class="self-link" href="#references"></a></h2>
+  <h3 class="no-num no-ref heading settled" id="normative"><span class="content">Normative References</span><a class="self-link" href="#normative"></a></h3>
+  <dl>
+   <dt id="biblio-dom">[DOM]
+   <dd>Anne van Kesteren. <a href="https://dom.spec.whatwg.org/"><cite>DOM Standard</cite></a>. Living Standard. URL: <a href="https://dom.spec.whatwg.org/">https://dom.spec.whatwg.org/</a>
+   <dt id="biblio-html">[HTML]
+   <dd>Anne van Kesteren; et al. <a href="https://html.spec.whatwg.org/multipage/"><cite>HTML Standard</cite></a>. Living Standard. URL: <a href="https://html.spec.whatwg.org/multipage/">https://html.spec.whatwg.org/multipage/</a>
+   <dt id="biblio-mediacapture-streams">[MEDIACAPTURE-STREAMS]
+   <dd>Cullen Jennings; et al. <a href="https://w3c.github.io/mediacapture-main/"><cite>Media Capture and Streams</cite></a>. URL: <a href="https://w3c.github.io/mediacapture-main/">https://w3c.github.io/mediacapture-main/</a>
+   <dt id="biblio-rfc2119">[RFC2119]
+   <dd>S. Bradner. <a href="https://datatracker.ietf.org/doc/html/rfc2119"><cite>Key words for use in RFCs to Indicate Requirement Levels</cite></a>. March 1997. Best Current Practice. URL: <a href="https://datatracker.ietf.org/doc/html/rfc2119">https://datatracker.ietf.org/doc/html/rfc2119</a>
+   <dt id="biblio-webaudio">[WEBAUDIO]
+   <dd>Paul Adenot; Hongchan Choi. <a href="https://webaudio.github.io/web-audio-api/"><cite>Web Audio API</cite></a>. URL: <a href="https://webaudio.github.io/web-audio-api/">https://webaudio.github.io/web-audio-api/</a>
+   <dt id="biblio-webidl">[WEBIDL]
+   <dd>Edgar Chen; Timothy Gu. <a href="https://webidl.spec.whatwg.org/"><cite>Web IDL Standard</cite></a>. Living Standard. URL: <a href="https://webidl.spec.whatwg.org/">https://webidl.spec.whatwg.org/</a>
+  </dl>
+  <h2 class="no-num no-ref heading settled" id="idl-index"><span class="content">IDL Index</span><a class="self-link" href="#idl-index"></a></h2>
+<pre class="idl highlight def">[<a class="idl-code" data-link-type="extended-attribute" href="https://webidl.spec.whatwg.org/#Exposed"><c- g>Exposed</c-></a>=<c- n>Window</c->]
+<c- b>interface</c-> <a href="#audiosession"><code><c- g>AudioSession</c-></code></a> : <a data-link-type="idl-name" href="https://dom.spec.whatwg.org/#eventtarget"><c- n>EventTarget</c-></a> {
+  <c- b>attribute</c-> <a data-link-type="idl-name" href="#enumdef-audiosessiontype"><c- n>AudioSessionType</c-></a> <a data-type="AudioSessionType" href="#dom-audiosession-type"><code><c- g>type</c-></code></a>;
+
+  <c- b>readonly</c-> <c- b>attribute</c-> <a data-link-type="idl-name" href="#enumdef-audiosessionstate"><c- n>AudioSessionState</c-></a> <a data-readonly data-type="AudioSessionState" href="#dom-audiosession-state"><code><c- g>state</c-></code></a>;
+  <c- b>attribute</c-> <a data-link-type="idl-name" href="https://html.spec.whatwg.org/multipage/webappapis.html#eventhandler"><c- n>EventHandler</c-></a> <a data-type="EventHandler" href="#dom-audiosession-onstatechange"><code><c- g>onstatechange</c-></code></a>;
+};
+
+<c- b>enum</c-> <a href="#enumdef-audiosessiontype"><code><c- g>AudioSessionType</c-></code></a> {
+  <a class="idl-code" data-link-type="enum-value" href="#dom-audiosessiontype-auto"><c- s>"auto"</c-></a>,
+  <a class="idl-code" data-link-type="enum-value" href="#dom-audiosessiontype-playback"><c- s>"playback"</c-></a>,
+  <a class="idl-code" data-link-type="enum-value" href="#dom-audiosessiontype-transient"><c- s>"transient"</c-></a>,
+  <a class="idl-code" data-link-type="enum-value" href="#dom-audiosessiontype-transient-solo"><c- s>"transient-solo"</c-></a>,
+  <a class="idl-code" data-link-type="enum-value" href="#dom-audiosessiontype-ambient"><c- s>"ambient"</c-></a>,
+  <a class="idl-code" data-link-type="enum-value" href="#dom-audiosessiontype-play-and-record"><c- s>"play-and-record"</c-></a>
+};
+
+<c- b>enum</c-> <a href="#enumdef-audiosessionstate"><code><c- g>AudioSessionState</c-></code></a> {
+  <a class="idl-code" data-link-type="enum-value" href="#dom-audiosessionstate-inactive"><c- s>"inactive"</c-></a>,
+  <a class="idl-code" data-link-type="enum-value" href="#dom-audiosessionstate-active"><c- s>"active"</c-></a>,
+  <a class="idl-code" data-link-type="enum-value" href="#dom-audiosessionstate-interrupted"><c- s>"interrupted"</c-></a>
+};
+
+[<a class="idl-code" data-link-type="extended-attribute" href="https://webidl.spec.whatwg.org/#Exposed"><c- g>Exposed</c-></a>=<c- n>Window</c->]
+<c- b>partial</c-> <c- b>interface</c-> <a class="idl-code" data-link-type="interface" href="https://html.spec.whatwg.org/multipage/system-state.html#navigator"><c- g>Navigator</c-></a> {
+  // The default audio session that the user agent will use when media elements start/stop playing.
+  <c- b>readonly</c-> <c- b>attribute</c-> <a data-link-type="idl-name" href="#audiosession"><c- n>AudioSession</c-></a> <a data-readonly data-type="AudioSession" href="#dom-navigator-audiosession"><code><c- g>audioSession</c-></code></a>;
+};
+
+</pre>
+<script>/* Boilerplate: script-dom-helper */
+"use strict";
+function query(sel) { return document.querySelector(sel); }
+
+function queryAll(sel) { return [...document.querySelectorAll(sel)]; }
+
+function iter(obj) {
+	if(!obj) return [];
+	var it = obj[Symbol.iterator];
+	if(it) return it;
+	return Object.entries(obj);
+}
+
+function mk(tagname, attrs, ...children) {
+	const el = document.createElement(tagname);
+	for(const [k,v] of iter(attrs)) {
+		if(k.slice(0,3) == "_on") {
+			const eventName = k.slice(3);
+			el.addEventListener(eventName, v);
+		} else if(k[0] == "_") {
+			// property, not attribute
+			el[k.slice(1)] = v;
+		} else {
+			if(v === false || v == null) {
+        continue;
+      } else if(v === true) {
+        el.setAttribute(k, "");
+        continue;
+      } else {
+  			el.setAttribute(k, v);
+      }
+		}
+	}
+	append(el, children);
+	return el;
+}
+
+/* Create shortcuts for every known HTML element */
+[
+  "a",
+  "abbr",
+  "acronym",
+  "address",
+  "applet",
+  "area",
+  "article",
+  "aside",
+  "audio",
+  "b",
+  "base",
+  "basefont",
+  "bdo",
+  "big",
+  "blockquote",
+  "body",
+  "br",
+  "button",
+  "canvas",
+  "caption",
+  "center",
+  "cite",
+  "code",
+  "col",
+  "colgroup",
+  "datalist",
+  "dd",
+  "del",
+  "details",
+  "dfn",
+  "dialog",
+  "div",
+  "dl",
+  "dt",
+  "em",
+  "embed",
+  "fieldset",
+  "figcaption",
+  "figure",
+  "font",
+  "footer",
+  "form",
+  "frame",
+  "frameset",
+  "head",
+  "header",
+  "h1",
+  "h2",
+  "h3",
+  "h4",
+  "h5",
+  "h6",
+  "hr",
+  "html",
+  "i",
+  "iframe",
+  "img",
+  "input",
+  "ins",
+  "kbd",
+  "label",
+  "legend",
+  "li",
+  "link",
+  "main",
+  "map",
+  "mark",
+  "meta",
+  "meter",
+  "nav",
+  "nobr",
+  "noscript",
+  "object",
+  "ol",
+  "optgroup",
+  "option",
+  "output",
+  "p",
+  "param",
+  "pre",
+  "progress",
+  "q",
+  "s",
+  "samp",
+  "script",
+  "section",
+  "select",
+  "small",
+  "source",
+  "span",
+  "strike",
+  "strong",
+  "style",
+  "sub",
+  "summary",
+  "sup",
+  "table",
+  "tbody",
+  "td",
+  "template",
+  "textarea",
+  "tfoot",
+  "th",
+  "thead",
+  "time",
+  "title",
+  "tr",
+  "u",
+  "ul",
+  "var",
+  "video",
+  "wbr",
+  "xmp",
+].forEach(tagname=>{
+	mk[tagname] = (...args) => mk(tagname, ...args);
+});
+
+function* nodesFromChildList(children) {
+	for(const child of children.flat(Infinity)) {
+		if(child instanceof Node) {
+			yield child;
+		} else {
+			yield new Text(child);
+		}
+	}
+}
+function append(el, ...children) {
+	for(const child of nodesFromChildList(children)) {
+		if(el instanceof Node) el.appendChild(child);
+		else el.push(child);
+	}
+	return el;
+}
+
+function insertAfter(el, ...children) {
+	for(const child of nodesFromChildList(children)) {
+		el.parentNode.insertBefore(child, el.nextSibling);
+	}
+	return el;
+}
+
+function clearContents(el) {
+	el.innerHTML = "";
+	return el;
+}
+
+function parseHTML(markup) {
+	if(markup.toLowerCase().trim().indexOf('<!doctype') === 0) {
+		const doc = document.implementation.createHTMLDocument("");
+		doc.documentElement.innerHTML = markup;
+		return doc;
+	} else {
+		const el = mk.template({});
+		el.innerHTML = markup;
+		return el.content;
+	}
+}</script>
+<script>/* Boilerplate: script-dfn-panel */
+"use strict";
+{
+let dfnPanelData = {
+"0d0390b4": {"dfnID":"0d0390b4","dfnText":"browsing context","external":true,"refSections":[{"refs":[{"id":"ref-for-browsing-context"}],"title":"2.2. Audio session states"},{"refs":[{"id":"ref-for-browsing-context\u2460"},{"id":"ref-for-browsing-context\u2461"},{"id":"ref-for-browsing-context\u2462"},{"id":"ref-for-browsing-context\u2463"},{"id":"ref-for-browsing-context\u2464"}],"title":"4. Audio session algorithms"}],"url":"https://html.spec.whatwg.org/multipage/document-sequences.html#browsing-context"},
+"101c721c": {"dfnID":"101c721c","dfnText":"active window","external":true,"refSections":[{"refs":[{"id":"ref-for-nav-window"},{"id":"ref-for-nav-window\u2460"}],"title":"4. Audio session algorithms"}],"url":"https://html.spec.whatwg.org/multipage/document-sequences.html#nav-window"},
+"1076ec40": {"dfnID":"1076ec40","dfnText":"HTMLMediaElement","external":true,"refSections":[{"refs":[{"id":"ref-for-htmlmediaelement"},{"id":"ref-for-htmlmediaelement\u2460"}],"title":"3. Extensions to the Navigator interface"},{"refs":[{"id":"ref-for-htmlmediaelement\u2461"}],"title":"4. Audio session algorithms"}],"url":"https://html.spec.whatwg.org/multipage/media.html#htmlmediaelement"},
+"2bc0cdf4": {"dfnID":"2bc0cdf4","dfnText":"EventTarget","external":true,"refSections":[{"refs":[{"id":"ref-for-eventtarget"}],"title":"2. The AudioSession interface"}],"url":"https://dom.spec.whatwg.org/#eventtarget"},
+"5991ccfb": {"dfnID":"5991ccfb","dfnText":"relevant realm","external":true,"refSections":[{"refs":[{"id":"ref-for-concept-relevant-realm"}],"title":"3. Extensions to the Navigator interface"}],"url":"https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-realm"},
+"5d7209e9": {"dfnID":"5d7209e9","dfnText":"Window","external":true,"refSections":[{"refs":[{"id":"ref-for-window"},{"id":"ref-for-window\u2460"},{"id":"ref-for-window\u2461"},{"id":"ref-for-window\u2462"},{"id":"ref-for-window\u2463"},{"id":"ref-for-window\u2464"},{"id":"ref-for-window\u2465"}],"title":"3. Extensions to the Navigator interface"}],"url":"https://html.spec.whatwg.org/multipage/nav-history-apis.html#window"},
+"889e932f": {"dfnID":"889e932f","dfnText":"Exposed","external":true,"refSections":[{"refs":[{"id":"ref-for-Exposed"}],"title":"2. The AudioSession interface"},{"refs":[{"id":"ref-for-Exposed\u2460"}],"title":"3. Extensions to the Navigator interface"}],"url":"https://webidl.spec.whatwg.org/#Exposed"},
+"9a517a7d": {"dfnID":"9a517a7d","dfnText":"queue a task","external":true,"refSections":[{"refs":[{"id":"ref-for-queue-a-task"}],"title":"4. Audio session algorithms"}],"url":"https://html.spec.whatwg.org/multipage/webappapis.html#queue-a-task"},
+"a72449dd": {"dfnID":"a72449dd","dfnText":"in parallel","external":true,"refSections":[{"refs":[{"id":"ref-for-in-parallel"}],"title":"4. Audio session algorithms"}],"url":"https://html.spec.whatwg.org/multipage/infrastructure.html#in-parallel"},
+"active-audio-session": {"dfnID":"active-audio-session","dfnText":"active audio session","external":false,"refSections":[{"refs":[{"id":"ref-for-active-audio-session"}],"title":"4. Audio session algorithms"}],"url":"#active-audio-session"},
+"ae2a6342": {"dfnID":"ae2a6342","dfnText":"top-level browsing context","external":true,"refSections":[{"refs":[{"id":"ref-for-top-level-browsing-context"}],"title":"2. The AudioSession interface"},{"refs":[{"id":"ref-for-top-level-browsing-context\u2460"},{"id":"ref-for-top-level-browsing-context\u2461"},{"id":"ref-for-top-level-browsing-context\u2462"},{"id":"ref-for-top-level-browsing-context\u2463"},{"id":"ref-for-top-level-browsing-context\u2464"},{"id":"ref-for-top-level-browsing-context\u2465"}],"title":"4. Audio session algorithms"}],"url":"https://html.spec.whatwg.org/multipage/document-sequences.html#top-level-browsing-context"},
+"associated-audiosession": {"dfnID":"associated-audiosession","dfnText":"associated AudioSession","external":false,"refSections":[{"refs":[{"id":"ref-for-associated-audiosession"}],"title":"2.2. Audio session states"},{"refs":[{"id":"ref-for-associated-audiosession\u2460"},{"id":"ref-for-associated-audiosession\u2461"},{"id":"ref-for-associated-audiosession\u2462"},{"id":"ref-for-associated-audiosession\u2463"},{"id":"ref-for-associated-audiosession\u2464"},{"id":"ref-for-associated-audiosession\u2465"}],"title":"3. Extensions to the Navigator interface"},{"refs":[{"id":"ref-for-associated-audiosession\u2466"},{"id":"ref-for-associated-audiosession\u2467"}],"title":"4. Audio session algorithms"}],"url":"#associated-audiosession"},
+"audio-session": {"dfnID":"audio-session","dfnText":"audio session","external":false,"refSections":[{"refs":[{"id":"ref-for-audio-session"},{"id":"ref-for-audio-session\u2460"},{"id":"ref-for-audio-session\u2461"}],"title":"2. The AudioSession interface"},{"refs":[{"id":"ref-for-audio-session\u2462"}],"title":"2.1. Audio session types"},{"refs":[{"id":"ref-for-audio-session\u2463"},{"id":"ref-for-audio-session\u2464"},{"id":"ref-for-audio-session\u2465"},{"id":"ref-for-audio-session\u2466"}],"title":"2.2. Audio session states"},{"refs":[{"id":"ref-for-audio-session\u2467"}],"title":"4. Audio session algorithms"}],"url":"#audio-session"},
+"audio-session-audio-focus": {"dfnID":"audio-session-audio-focus","dfnText":"audio focus","external":false,"refSections":[{"refs":[{"id":"ref-for-audio-session-audio-focus"},{"id":"ref-for-audio-session-audio-focus\u2460"},{"id":"ref-for-audio-session-audio-focus\u2461"}],"title":"4. Audio session algorithms"}],"url":"#audio-session-audio-focus"},
+"audio-session-element": {"dfnID":"audio-session-element","dfnText":"elements","external":false,"refSections":[{"refs":[{"id":"ref-for-audio-session-element"},{"id":"ref-for-audio-session-element\u2460"}],"title":"2. The AudioSession interface"},{"refs":[{"id":"ref-for-audio-session-element\u2461"}],"title":"2.2. Audio session states"},{"refs":[{"id":"ref-for-audio-session-element\u2462"}],"title":"3. Extensions to the Navigator interface"},{"refs":[{"id":"ref-for-audio-session-element\u2463"}],"title":"4. Audio session algorithms"}],"url":"#audio-session-element"},
+"audio-session-element-state": {"dfnID":"audio-session-element-state","dfnText":"element state","external":false,"refSections":[{"refs":[{"id":"ref-for-audio-session-element-state"},{"id":"ref-for-audio-session-element-state\u2460"}],"title":"4. Audio session algorithms"}],"url":"#audio-session-element-state"},
+"audio-session-element-state-update-steps-list": {"dfnID":"audio-session-element-state-update-steps-list","dfnText":"element state update steps list","external":false,"refSections":[{"refs":[{"id":"ref-for-audio-session-element-state-update-steps-list"}],"title":"4. Audio session algorithms"}],"url":"#audio-session-element-state-update-steps-list"},
+"audio-session-state": {"dfnID":"audio-session-state","dfnText":"state","external":false,"refSections":[{"refs":[{"id":"ref-for-audio-session-state"},{"id":"ref-for-audio-session-state\u2460"},{"id":"ref-for-audio-session-state\u2461"}],"title":"2. The AudioSession interface"}],"url":"#audio-session-state"},
+"audio-session-type": {"dfnID":"audio-session-type","dfnText":"types","external":false,"refSections":[{"refs":[{"id":"ref-for-audio-session-type"},{"id":"ref-for-audio-session-type\u2460"},{"id":"ref-for-audio-session-type\u2461"}],"title":"2. The AudioSession interface"}],"url":"#audio-session-type"},
+"audiosession": {"dfnID":"audiosession","dfnText":"AudioSession","external":false,"refSections":[{"refs":[{"id":"ref-for-audiosession"},{"id":"ref-for-audiosession\u2460"},{"id":"ref-for-audiosession\u2461"},{"id":"ref-for-audiosession\u2462"},{"id":"ref-for-audiosession\u2463"},{"id":"ref-for-audiosession\u2464"},{"id":"ref-for-audiosession\u2465"},{"id":"ref-for-audiosession\u2466"},{"id":"ref-for-audiosession\u2467"}],"title":"2. The AudioSession interface"},{"refs":[{"id":"ref-for-audiosession\u2468"}],"title":"2.1. Audio session types"},{"refs":[{"id":"ref-for-audiosession\u2460\u24ea"},{"id":"ref-for-audiosession\u2460\u2460"},{"id":"ref-for-audiosession\u2460\u2461"}],"title":"3. Extensions to the Navigator interface"}],"url":"#audiosession"},
+"bc1e4fa1": {"dfnID":"bc1e4fa1","dfnText":"MediaStreamTrack","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-mediastreamtrack"}],"title":"3. Extensions to the Navigator interface"},{"refs":[{"id":"ref-for-dom-mediastreamtrack\u2460"}],"title":"4. Audio session algorithms"}],"url":"https://w3c.github.io/mediacapture-main/#dom-mediastreamtrack"},
+"be0c27b2": {"dfnID":"be0c27b2","dfnText":"Navigator","external":true,"refSections":[{"refs":[{"id":"ref-for-navigator"}],"title":"2. The AudioSession interface"},{"refs":[{"id":"ref-for-navigator\u2460"}],"title":"3. Extensions to the Navigator interface"}],"url":"https://html.spec.whatwg.org/multipage/system-state.html#navigator"},
+"compute-the-active-audio-session": {"dfnID":"compute-the-active-audio-session","dfnText":"compute the active audio session","external":false,"refSections":[{"refs":[{"id":"ref-for-compute-the-active-audio-session"},{"id":"ref-for-compute-the-active-audio-session\u2460"}],"title":"4. Audio session algorithms"}],"url":"#compute-the-active-audio-session"},
+"compute-the-audio-session-type": {"dfnID":"compute-the-audio-session-type","dfnText":"compute the audio session type","external":false,"refSections":[{"refs":[{"id":"ref-for-compute-the-audio-session-type"},{"id":"ref-for-compute-the-audio-session-type\u2460"},{"id":"ref-for-compute-the-audio-session-type\u2461"}],"title":"4. Audio session algorithms"}],"url":"#compute-the-audio-session-type"},
+"dom-audiosession-onstatechange": {"dfnID":"dom-audiosession-onstatechange","dfnText":"onstatechange","external":false,"refSections":[],"url":"#dom-audiosession-onstatechange"},
+"dom-audiosession-state": {"dfnID":"dom-audiosession-state","dfnText":"state","external":false,"refSections":[],"url":"#dom-audiosession-state"},
+"dom-audiosession-type": {"dfnID":"dom-audiosession-type","dfnText":"type","external":false,"refSections":[],"url":"#dom-audiosession-type"},
+"dom-audiosessionstate-active": {"dfnID":"dom-audiosessionstate-active","dfnText":"active","external":false,"refSections":[{"refs":[{"id":"ref-for-dom-audiosessionstate-active"}],"title":"2.2. Audio session states"},{"refs":[{"id":"ref-for-dom-audiosessionstate-active\u2460"},{"id":"ref-for-dom-audiosessionstate-active\u2461"},{"id":"ref-for-dom-audiosessionstate-active\u2462"},{"id":"ref-for-dom-audiosessionstate-active\u2463"},{"id":"ref-for-dom-audiosessionstate-active\u2464"}],"title":"4. Audio session algorithms"}],"url":"#dom-audiosessionstate-active"},
+"dom-audiosessionstate-inactive": {"dfnID":"dom-audiosessionstate-inactive","dfnText":"inactive","external":false,"refSections":[{"refs":[{"id":"ref-for-dom-audiosessionstate-inactive"}],"title":"2. The AudioSession interface"},{"refs":[{"id":"ref-for-dom-audiosessionstate-inactive\u2460"}],"title":"2.2. Audio session states"},{"refs":[{"id":"ref-for-dom-audiosessionstate-inactive\u2461"}],"title":"4. Audio session algorithms"}],"url":"#dom-audiosessionstate-inactive"},
+"dom-audiosessionstate-interrupted": {"dfnID":"dom-audiosessionstate-interrupted","dfnText":"interrupted","external":false,"refSections":[{"refs":[{"id":"ref-for-dom-audiosessionstate-interrupted"}],"title":"2.2. Audio session states"},{"refs":[{"id":"ref-for-dom-audiosessionstate-interrupted\u2460"},{"id":"ref-for-dom-audiosessionstate-interrupted\u2461"},{"id":"ref-for-dom-audiosessionstate-interrupted\u2462"}],"title":"4. Audio session algorithms"}],"url":"#dom-audiosessionstate-interrupted"},
+"dom-audiosessiontype-ambient": {"dfnID":"dom-audiosessiontype-ambient","dfnText":"ambient","external":false,"refSections":[{"refs":[{"id":"ref-for-dom-audiosessiontype-ambient"}],"title":"2.1. Audio session types"}],"url":"#dom-audiosessiontype-ambient"},
+"dom-audiosessiontype-auto": {"dfnID":"dom-audiosessiontype-auto","dfnText":"auto","external":false,"refSections":[{"refs":[{"id":"ref-for-dom-audiosessiontype-auto"},{"id":"ref-for-dom-audiosessiontype-auto\u2460"}],"title":"2. The AudioSession interface"},{"refs":[{"id":"ref-for-dom-audiosessiontype-auto\u2461"}],"title":"2.1. Audio session types"},{"refs":[{"id":"ref-for-dom-audiosessiontype-auto\u2462"},{"id":"ref-for-dom-audiosessiontype-auto\u2463"}],"title":"4. Audio session algorithms"}],"url":"#dom-audiosessiontype-auto"},
+"dom-audiosessiontype-play-and-record": {"dfnID":"dom-audiosessiontype-play-and-record","dfnText":"play-and-record","external":false,"refSections":[{"refs":[{"id":"ref-for-dom-audiosessiontype-play-and-record"},{"id":"ref-for-dom-audiosessiontype-play-and-record\u2460"}],"title":"2.1. Audio session types"},{"refs":[{"id":"ref-for-dom-audiosessiontype-play-and-record\u2461"}],"title":"4. Audio session algorithms"}],"url":"#dom-audiosessiontype-play-and-record"},
+"dom-audiosessiontype-playback": {"dfnID":"dom-audiosessiontype-playback","dfnText":"playback","external":false,"refSections":[{"refs":[{"id":"ref-for-dom-audiosessiontype-playback"},{"id":"ref-for-dom-audiosessiontype-playback\u2460"}],"title":"2.1. Audio session types"},{"refs":[{"id":"ref-for-dom-audiosessiontype-playback\u2461"}],"title":"4. Audio session algorithms"}],"url":"#dom-audiosessiontype-playback"},
+"dom-audiosessiontype-transient": {"dfnID":"dom-audiosessiontype-transient","dfnText":"transient","external":false,"refSections":[{"refs":[{"id":"ref-for-dom-audiosessiontype-transient"}],"title":"2.1. Audio session types"},{"refs":[{"id":"ref-for-dom-audiosessiontype-transient\u2460"}],"title":"4. Audio session algorithms"}],"url":"#dom-audiosessiontype-transient"},
+"dom-audiosessiontype-transient-solo": {"dfnID":"dom-audiosessiontype-transient-solo","dfnText":"transient-solo","external":false,"refSections":[{"refs":[{"id":"ref-for-dom-audiosessiontype-transient-solo"}],"title":"2.1. Audio session types"}],"url":"#dom-audiosessiontype-transient-solo"},
+"dom-navigator-audiosession": {"dfnID":"dom-navigator-audiosession","dfnText":"audioSession","external":false,"refSections":[{"refs":[{"id":"ref-for-dom-navigator-audiosession"}],"title":"2.2. Audio session states"}],"url":"#dom-navigator-audiosession"},
+"elements": {"dfnID":"elements","dfnText":"[[\\elements]]","external":false,"refSections":[{"refs":[{"id":"ref-for-elements"},{"id":"ref-for-elements\u2460"},{"id":"ref-for-elements\u2461"},{"id":"ref-for-elements\u2462"},{"id":"ref-for-elements\u2463"},{"id":"ref-for-elements\u2464"}],"title":"4. Audio session algorithms"}],"url":"#elements"},
+"enumdef-audiosessionstate": {"dfnID":"enumdef-audiosessionstate","dfnText":"AudioSessionState","external":false,"refSections":[{"refs":[{"id":"ref-for-enumdef-audiosessionstate"},{"id":"ref-for-enumdef-audiosessionstate\u2460"}],"title":"2. The AudioSession interface"},{"refs":[{"id":"ref-for-enumdef-audiosessionstate\u2461"}],"title":"2.2. Audio session states"}],"url":"#enumdef-audiosessionstate"},
+"enumdef-audiosessiontype": {"dfnID":"enumdef-audiosessiontype","dfnText":"AudioSessionType","external":false,"refSections":[{"refs":[{"id":"ref-for-enumdef-audiosessiontype"}],"title":"2. The AudioSession interface"},{"refs":[{"id":"ref-for-enumdef-audiosessiontype\u2460"},{"id":"ref-for-enumdef-audiosessiontype\u2461"}],"title":"2.1. Audio session types"}],"url":"#enumdef-audiosessiontype"},
+"exclusive-type": {"dfnID":"exclusive-type","dfnText":"exclusive type","external":false,"refSections":[{"refs":[{"id":"ref-for-exclusive-type"},{"id":"ref-for-exclusive-type\u2460"},{"id":"ref-for-exclusive-type\u2461"},{"id":"ref-for-exclusive-type\u2462"}],"title":"4. Audio session algorithms"}],"url":"#exclusive-type"},
+"f0951476": {"dfnID":"f0951476","dfnText":"EventHandler","external":true,"refSections":[{"refs":[{"id":"ref-for-eventhandler"}],"title":"2. The AudioSession interface"}],"url":"https://html.spec.whatwg.org/multipage/webappapis.html#eventhandler"},
+"fabc7040": {"dfnID":"fabc7040","dfnText":"AudioContext","external":true,"refSections":[{"refs":[{"id":"ref-for-AudioContext"}],"title":"3. Extensions to the Navigator interface"},{"refs":[{"id":"ref-for-AudioContext\u2460"}],"title":"4. Audio session algorithms"}],"url":"https://webaudio.github.io/web-audio-api/#AudioContext"},
+"state": {"dfnID":"state","dfnText":"[[\\state]]","external":false,"refSections":[{"refs":[{"id":"ref-for-state"}],"title":"2. The AudioSession interface"},{"refs":[{"id":"ref-for-state\u2460"},{"id":"ref-for-state\u2461"},{"id":"ref-for-state\u2462"},{"id":"ref-for-state\u2463"},{"id":"ref-for-state\u2464"}],"title":"4. Audio session algorithms"}],"url":"#state"},
+"type": {"dfnID":"type","dfnText":"[[\\type]]","external":false,"refSections":[{"refs":[{"id":"ref-for-type"},{"id":"ref-for-type\u2460"},{"id":"ref-for-type\u2461"}],"title":"2. The AudioSession interface"},{"refs":[{"id":"ref-for-type\u2462"},{"id":"ref-for-type\u2463"},{"id":"ref-for-type\u2464"},{"id":"ref-for-type\u2465"}],"title":"4. Audio session algorithms"}],"url":"#type"},
+"update-all-audio-session-states": {"dfnID":"update-all-audio-session-states","dfnText":"update all audio session states","external":false,"refSections":[{"refs":[{"id":"ref-for-update-all-audio-session-states"}],"title":"2. The AudioSession interface"},{"refs":[{"id":"ref-for-update-all-audio-session-states\u2460"},{"id":"ref-for-update-all-audio-session-states\u2461"}],"title":"4. Audio session algorithms"}],"url":"#update-all-audio-session-states"},
+"update-the-playback": {"dfnID":"update-the-playback","dfnText":"update the playback","external":false,"refSections":[{"refs":[{"id":"ref-for-update-the-playback"}],"title":"2. The AudioSession interface"}],"url":"#update-the-playback"},
+"update-the-state": {"dfnID":"update-the-state","dfnText":"update the state","external":false,"refSections":[{"refs":[{"id":"ref-for-update-the-state"},{"id":"ref-for-update-the-state\u2460"}],"title":"4. Audio session algorithms"}],"url":"#update-the-state"},
+};
+
+document.addEventListener("DOMContentLoaded", ()=>{
+    genAllDfnPanels();
+
+    document.body.addEventListener("click", (e) => {
+        // If not handled already, just hide all dfn panels.
+        hideAllDfnPanels();
+    });
+});
+
+window.addEventListener("resize", () => {
+    // Pin any visible dfn panel
+    queryAll(".dfn-panel.on, .dfn-panel.activated").forEach(el=>positionDfnPanel(el));
+});
+
+function genAllDfnPanels() {
+    for(const panelData of Object.values(dfnPanelData)) {
+        const dfnID = panelData.dfnID;
+        const dfn = document.getElementById(dfnID);
+        if(!dfn) {
+            console.log(`Can't find dfn#${dfnID}.`, panelData);
+            continue;
+        }
+        dfn.panelData = panelData;
+        insertDfnPopupAction(dfn);
+    }
+}
+
+function genDfnPanel(dfn, { dfnID, url, dfnText, refSections, external }) {
+    const dfnPanel = mk.aside({
+        class: "dfn-panel on",
+        id: `infopanel-for-${dfnID}`,
+        "data-for": dfnID,
+        "aria-labelled-by":`infopaneltitle-for-${dfnID}`,
+        },
+        mk.span({id:`infopaneltitle-for-${dfnID}`, style:"display:none"},
+            `Info about the '${dfnText}' ${external?"external":""} reference.`),
+        mk.a({href:url, class:"dfn-link"}, url),
+        refSections.length == 0 ? [] :
+            mk.b({}, "Referenced in:"),
+            mk.ul({},
+                ...refSections.map(section=>
+                    mk.li({},
+                        ...section.refs.map((ref, refI)=>
+                            [
+                                mk.a({ href: `#${ref.id}` },
+                                    (refI == 0) ? section.title : `(${refI + 1})`
+                                ),
+                                " ",
+                            ]
+                        ),
+                    ),
+                ),
+            ),
+        genLinkingSyntaxes(dfn),
+    );
+
+    dfnPanel.addEventListener('click', (event) => {
+        if (event.target.nodeName == 'A') {
+            scrollToTargetAndHighlight(event);
+            pinDfnPanel(dfnPanel);
+        }
+        event.stopPropagation();
+        refocusOnTarget(event);
+    });
+    dfnPanel.addEventListener('keydown', (event) => {
+        if(event.keyCode == 27) { // Escape key
+            hideDfnPanel({dfnPanel});
+            event.stopPropagation();
+            event.preventDefault();
+        }
+    });
+
+    dfnPanel.dfn = dfn;
+    dfn.dfnPanel = dfnPanel;
+    return dfnPanel;
+}
+
+
+
+function hideAllDfnPanels() {
+    // Delete the currently-active dfn panel.
+    queryAll(".dfn-panel").forEach(dfnPanel=>hideDfnPanel({dfnPanel}));
+}
+
+function showDfnPanel(dfn) {
+    hideAllDfnPanels(); // Only display one at a time.
+
+    dfn.setAttribute("aria-expanded", "true");
+
+    const dfnPanel = genDfnPanel(dfn, dfn.panelData);
+
+    // Give the dfn a unique tabindex, and then
+    // give all the tabbable panel bits successive indexes.
+    let tabIndex = 100;
+    dfn.tabIndex = tabIndex++;
+    const tabbable = dfnPanel.querySelectorAll(":is(a, button)");
+    for (const el of tabbable) {
+        el.tabIndex = tabIndex++;
+    }
+
+    append(document.body, dfnPanel);
+    positionDfnPanel(dfnPanel);
+}
+
+function positionDfnPanel(dfnPanel) {
+    const dfn = dfnPanel.dfn;
+    const dfnPos = getBounds(dfn);
+    dfnPanel.style.top = dfnPos.bottom + "px";
+    dfnPanel.style.left = dfnPos.left + "px";
+
+    const panelPos = dfnPanel.getBoundingClientRect();
+    const panelMargin = 8;
+    const maxRight = document.body.parentNode.clientWidth - panelMargin;
+    if (panelPos.right > maxRight) {
+        const overflowAmount = panelPos.right - maxRight;
+        const newLeft = Math.max(panelMargin, dfnPos.left - overflowAmount);
+        dfnPanel.style.left = newLeft + "px";
+    }
+}
+
+function pinDfnPanel(dfnPanel) {
+    // Switch it to "activated" state, which pins it.
+    dfnPanel.classList.add("activated");
+    dfnPanel.style.position = "fixed";
+    dfnPanel.style.left = null;
+    dfnPanel.style.top = null;
+}
+
+function hideDfnPanel({dfn, dfnPanel}) {
+    if(!dfnPanel) dfnPanel = dfn.dfnPanel;
+    if(!dfn) dfn = dfnPanel.dfn;
+    dfn.dfnPanel = undefined;
+    dfnPanel.dfn = undefined;
+    dfn.setAttribute("aria-expanded", "false");
+    dfn.tabIndex = undefined;
+    dfnPanel.remove()
+}
+
+function toggleDfnPanel(dfn) {
+    if(dfn.dfnPanel) {
+        hideDfnPanel(dfn);
+    } else {
+        showDfnPanel(dfn);
+    }
+}
+
+function insertDfnPopupAction(dfn) {
+    dfn.setAttribute('role', 'button');
+    dfn.setAttribute('aria-expanded', 'false')
+    dfn.tabIndex = 0;
+    dfn.classList.add('has-dfn-panel');
+    dfn.addEventListener('click', (event) => {
+        toggleDfnPanel(dfn);
+        event.stopPropagation();
+    });
+    dfn.addEventListener('keypress', (event) => {
+        const kc = event.keyCode;
+        // 32->Space, 13->Enter
+        if(kc == 32 || kc == 13) {
+            toggleDfnPanel(dfn);
+            event.stopPropagation();
+            event.preventDefault();
+        }
+    });
+}
+
+function refocusOnTarget(event) {
+    const target = event.target;
+    setTimeout(() => {
+        // Refocus on the event.target element.
+        // This is needed after browser scrolls to the destination.
+        target.focus();
+    });
+}
+
+// TODO: shared util
+// Returns the root-level absolute position {left and top} of element.
+function getBounds(el, relativeTo=document.body) {
+    const relativeRect = relativeTo.getBoundingClientRect();
+    const elRect = el.getBoundingClientRect();
+    const top = elRect.top - relativeRect.top;
+    const left = elRect.left - relativeRect.left;
+    return {
+        top,
+        left,
+        bottom: top + elRect.height,
+        right: left + elRect.width,
+    }
+}
+
+function scrollToTargetAndHighlight(event) {
+    let hash = event.target.hash;
+    if (hash) {
+        hash = decodeURIComponent(hash.substring(1));
+        const dest = document.getElementById(hash);
+        if (dest) {
+            dest.classList.add('highlighted');
+            setTimeout(() => dest.classList.remove('highlighted'), 1000);
+        }
+    }
+}
+
+// Functions, divided by link type, that wrap an autolink's
+// contents with the appropriate outer syntax.
+// Alternately, a string naming another type they format
+// the same as.
+function needsFor(type) {
+    switch(type) {
+        case "descriptor":
+        case "value":
+        case "element-attr":
+        case "attr-value":
+        case "element-state":
+        case "method":
+        case "constructor":
+        case "argument":
+        case "attribute":
+        case "const":
+        case "dict-member":
+        case "event":
+        case "enum-value":
+        case "stringifier":
+        case "serializer":
+        case "iterator":
+        case "maplike":
+        case "setlike":
+        case "state":
+        case "mode":
+        case "context":
+        case "facet": return true;
+
+        default: return false;
+    }
+}
+function refusesFor(type) {
+    switch(type) {
+        case "property":
+        case "element":
+        case "interface":
+        case "namespace":
+        case "callback":
+        case "dictionary":
+        case "enum":
+        case "exception":
+        case "typedef":
+        case "http-header":
+        case "permission": return true;
+
+        default: return false;
+    }
+}
+function linkFormatterFromType(type) {
+    switch(type) {
+        case 'scheme':
+        case 'permission':
+        case 'dfn': return (text) => `[=${text}=]`;
+
+        case 'abstract-op': return (text) => `[\$${text}\$]`;
+
+        case 'function':
+        case 'at-rule':
+        case 'selector':
+        case 'value': return (text) => `''${text}''`;
+
+        case 'http-header': return (text) => `[:${text}:]`;
+
+        case 'interface':
+        case 'constructor':
+        case 'method':
+        case 'argument':
+        case 'attribute':
+        case 'callback':
+        case 'dictionary':
+        case 'dict-member':
+        case 'enum':
+        case 'enum-value':
+        case 'exception':
+        case 'const':
+        case 'typedef':
+        case 'stringifier':
+        case 'serializer':
+        case 'iterator':
+        case 'maplike':
+        case 'setlike':
+        case 'extended-attribute':
+        case 'event':
+        case 'idl': return (text) => `{{${text}}}`;
+
+        case 'element-state':
+        case 'element-attr':
+        case 'attr-value':
+        case 'element': return (element) => `<{${element}}>`;
+
+        case 'grammar': return (text) => `${text} (within a <pre class=prod>)`;
+
+        case 'type': return (text)=> `<<${text}>>`;
+
+        case 'descriptor':
+        case 'property': return (text) => `'${text}'`;
+
+        default: return;
+    };
+};
+
+function genLinkingSyntaxes(dfn) {
+    if(dfn.tagName != "DFN") return;
+
+    const type = dfn.getAttribute('data-dfn-type');
+    if(!type) {
+        console.log(`<dfn> doesn't have a data-dfn-type:`, dfn);
+        return [];
+    }
+
+    // Return a function that wraps link text based on the type
+    const linkFormatter = linkFormatterFromType(type);
+    if(!linkFormatter) {
+        console.log(`<dfn> has an unknown data-dfn-type:`, dfn);
+        return [];
+    }
+
+    let ltAlts;
+    if(dfn.hasAttribute('data-lt')) {
+        ltAlts = dfn.getAttribute('data-lt')
+            .split("|")
+            .map(x=>x.trim());
+    } else {
+        ltAlts = [dfn.textContent.trim()];
+    }
+    if(type == "type") {
+        // lt of "<foo>", but "foo" is the interior;
+        // <<foo/bar>> is how you write it with a for,
+        // not <foo/<bar>> or whatever.
+        for(var i = 0; i < ltAlts.length; i++) {
+            const lt = ltAlts[i];
+            const match = /<(.*)>/.exec(lt);
+            if(match) { ltAlts[i] = match[1]; }
+        }
+    }
+
+    let forAlts;
+    if(dfn.hasAttribute('data-dfn-for')) {
+        forAlts = dfn.getAttribute('data-dfn-for')
+            .split(",")
+            .map(x=>x.trim());
+    } else {
+        forAlts = [''];
+    }
+
+    let linkingSyntaxes = [];
+    if(!needsFor(type)) {
+        for(const lt of ltAlts) {
+            linkingSyntaxes.push(linkFormatter(lt));
+        }
+    }
+    if(!refusesFor(type)) {
+        for(const f of forAlts) {
+            linkingSyntaxes.push(linkFormatter(`${f}/${ltAlts[0]}`))
+        }
+    }
+    return [
+        mk.b({}, 'Possible linking syntaxes:'),
+        mk.ul({},
+            ...linkingSyntaxes.map(link => {
+                const copyLink = async () =>
+                    await navigator.clipboard.writeText(link);
+                return mk.li({},
+                    mk.div({ class: 'link-item' },
+                        mk.button({
+                            class: 'copy-icon', title: 'Copy',
+                            type: 'button',
+                            _onclick: copyLink,
+                            tabindex: 0,
+                        }, mk.span({ class: 'icon' }) ),
+                        mk.span({}, link)
+                    )
+                );
+            })
+        )
+    ];
+}
+}
+</script>
+<script>/* Boilerplate: script-ref-hints */
+"use strict";
+{
+let refsData = {
+"#active-audio-session": {"export":true,"for_":[],"level":"","normative":true,"shortname":"audio-session","spec":"audio-session","status":"local","text":"active audio session","type":"dfn","url":"#active-audio-session"},
+"#associated-audiosession": {"export":true,"for_":[],"level":"","normative":true,"shortname":"audio-session","spec":"audio-session","status":"local","text":"associated audiosession","type":"dfn","url":"#associated-audiosession"},
+"#audio-session": {"export":true,"for_":[],"level":"","normative":true,"shortname":"audio-session","spec":"audio-session","status":"local","text":"audio session","type":"dfn","url":"#audio-session"},
+"#audio-session-audio-focus": {"export":true,"for_":["audio session"],"level":"","normative":true,"shortname":"audio-session","spec":"audio-session","status":"local","text":"audio focus","type":"dfn","url":"#audio-session-audio-focus"},
+"#audio-session-element": {"export":true,"for_":["audio session"],"level":"","normative":true,"shortname":"audio-session","spec":"audio-session","status":"local","text":"element","type":"dfn","url":"#audio-session-element"},
+"#audio-session-element-state": {"export":true,"for_":["audio session"],"level":"","normative":true,"shortname":"audio-session","spec":"audio-session","status":"local","text":"element state","type":"dfn","url":"#audio-session-element-state"},
+"#audio-session-element-state-update-steps-list": {"export":true,"for_":["audio session"],"level":"","normative":true,"shortname":"audio-session","spec":"audio-session","status":"local","text":"element state update steps list","type":"dfn","url":"#audio-session-element-state-update-steps-list"},
+"#audio-session-state": {"export":true,"for_":["audio session"],"level":"","normative":true,"shortname":"audio-session","spec":"audio-session","status":"local","text":"state","type":"dfn","url":"#audio-session-state"},
+"#audio-session-type": {"export":true,"for_":["audio session"],"level":"","normative":true,"shortname":"audio-session","spec":"audio-session","status":"local","text":"type","type":"dfn","url":"#audio-session-type"},
+"#audiosession": {"export":true,"for_":[],"level":"","normative":true,"shortname":"audio-session","spec":"audio-session","status":"local","text":"AudioSession","type":"interface","url":"#audiosession"},
+"#compute-the-active-audio-session": {"export":true,"for_":[],"level":"","normative":true,"shortname":"audio-session","spec":"audio-session","status":"local","text":"compute the active audio session","type":"dfn","url":"#compute-the-active-audio-session"},
+"#compute-the-audio-session-type": {"export":true,"for_":[],"level":"","normative":true,"shortname":"audio-session","spec":"audio-session","status":"local","text":"compute the audio session type","type":"dfn","url":"#compute-the-audio-session-type"},
+"#dom-audiosessionstate-active": {"export":true,"for_":["AudioSessionState"],"level":"","normative":true,"shortname":"audio-session","spec":"audio-session","status":"local","text":"\"active\"","type":"enum-value","url":"#dom-audiosessionstate-active"},
+"#dom-audiosessionstate-inactive": {"export":true,"for_":["AudioSessionState"],"level":"","normative":true,"shortname":"audio-session","spec":"audio-session","status":"local","text":"inactive","type":"enum-value","url":"#dom-audiosessionstate-inactive"},
+"#dom-audiosessionstate-interrupted": {"export":true,"for_":["AudioSessionState"],"level":"","normative":true,"shortname":"audio-session","spec":"audio-session","status":"local","text":"\"interrupted\"","type":"enum-value","url":"#dom-audiosessionstate-interrupted"},
+"#dom-audiosessiontype-ambient": {"export":true,"for_":["AudioSessionType"],"level":"","normative":true,"shortname":"audio-session","spec":"audio-session","status":"local","text":"\"ambient\"","type":"enum-value","url":"#dom-audiosessiontype-ambient"},
+"#dom-audiosessiontype-auto": {"export":true,"for_":["AudioSessionType"],"level":"","normative":true,"shortname":"audio-session","spec":"audio-session","status":"local","text":"auto","type":"enum-value","url":"#dom-audiosessiontype-auto"},
+"#dom-audiosessiontype-play-and-record": {"export":true,"for_":["AudioSessionType"],"level":"","normative":true,"shortname":"audio-session","spec":"audio-session","status":"local","text":"\"play-and-record\"","type":"enum-value","url":"#dom-audiosessiontype-play-and-record"},
+"#dom-audiosessiontype-playback": {"export":true,"for_":["AudioSessionType"],"level":"","normative":true,"shortname":"audio-session","spec":"audio-session","status":"local","text":"\"playback\"","type":"enum-value","url":"#dom-audiosessiontype-playback"},
+"#dom-audiosessiontype-transient": {"export":true,"for_":["AudioSessionType"],"level":"","normative":true,"shortname":"audio-session","spec":"audio-session","status":"local","text":"\"transient\"","type":"enum-value","url":"#dom-audiosessiontype-transient"},
+"#dom-audiosessiontype-transient-solo": {"export":true,"for_":["AudioSessionType"],"level":"","normative":true,"shortname":"audio-session","spec":"audio-session","status":"local","text":"\"transient-solo\"","type":"enum-value","url":"#dom-audiosessiontype-transient-solo"},
+"#dom-navigator-audiosession": {"export":true,"for_":["Navigator"],"level":"","normative":true,"shortname":"audio-session","spec":"audio-session","status":"local","text":"audioSession","type":"attribute","url":"#dom-navigator-audiosession"},
+"#elements": {"export":true,"for_":[],"level":"","normative":true,"shortname":"audio-session","spec":"audio-session","status":"local","text":"[[\\elements]]","type":"dfn","url":"#elements"},
+"#enumdef-audiosessionstate": {"export":true,"for_":[],"level":"","normative":true,"shortname":"audio-session","spec":"audio-session","status":"local","text":"AudioSessionState","type":"enum","url":"#enumdef-audiosessionstate"},
+"#enumdef-audiosessiontype": {"export":true,"for_":[],"level":"","normative":true,"shortname":"audio-session","spec":"audio-session","status":"local","text":"AudioSessionType","type":"enum","url":"#enumdef-audiosessiontype"},
+"#exclusive-type": {"export":true,"for_":[],"level":"","normative":true,"shortname":"audio-session","spec":"audio-session","status":"local","text":"exclusive type","type":"dfn","url":"#exclusive-type"},
+"#state": {"export":true,"for_":[],"level":"","normative":true,"shortname":"audio-session","spec":"audio-session","status":"local","text":"[[\\state]]","type":"dfn","url":"#state"},
+"#type": {"export":true,"for_":[],"level":"","normative":true,"shortname":"audio-session","spec":"audio-session","status":"local","text":"[[\\type]]","type":"dfn","url":"#type"},
+"#update-all-audio-session-states": {"export":true,"for_":[],"level":"","normative":true,"shortname":"audio-session","spec":"audio-session","status":"local","text":"update all audio session states","type":"dfn","url":"#update-all-audio-session-states"},
+"#update-the-playback": {"export":true,"for_":[],"level":"","normative":true,"shortname":"audio-session","spec":"audio-session","status":"local","text":"update the playback","type":"dfn","url":"#update-the-playback"},
+"#update-the-state": {"export":true,"for_":[],"level":"","normative":true,"shortname":"audio-session","spec":"audio-session","status":"local","text":"update the state","type":"dfn","url":"#update-the-state"},
+"https://dom.spec.whatwg.org/#eventtarget": {"export":true,"for_":[],"level":"1","normative":true,"shortname":"dom","spec":"dom","status":"current","text":"EventTarget","type":"interface","url":"https://dom.spec.whatwg.org/#eventtarget"},
+"https://html.spec.whatwg.org/multipage/document-sequences.html#browsing-context": {"export":true,"for_":[],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"browsing context","type":"dfn","url":"https://html.spec.whatwg.org/multipage/document-sequences.html#browsing-context"},
+"https://html.spec.whatwg.org/multipage/document-sequences.html#nav-window": {"export":true,"for_":["navigable"],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"active window","type":"dfn","url":"https://html.spec.whatwg.org/multipage/document-sequences.html#nav-window"},
+"https://html.spec.whatwg.org/multipage/document-sequences.html#top-level-browsing-context": {"export":true,"for_":[],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"top-level browsing context","type":"dfn","url":"https://html.spec.whatwg.org/multipage/document-sequences.html#top-level-browsing-context"},
+"https://html.spec.whatwg.org/multipage/infrastructure.html#in-parallel": {"export":true,"for_":[],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"in parallel","type":"dfn","url":"https://html.spec.whatwg.org/multipage/infrastructure.html#in-parallel"},
+"https://html.spec.whatwg.org/multipage/media.html#htmlmediaelement": {"export":true,"for_":[],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"HTMLMediaElement","type":"interface","url":"https://html.spec.whatwg.org/multipage/media.html#htmlmediaelement"},
+"https://html.spec.whatwg.org/multipage/nav-history-apis.html#window": {"export":true,"for_":[],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"Window","type":"interface","url":"https://html.spec.whatwg.org/multipage/nav-history-apis.html#window"},
+"https://html.spec.whatwg.org/multipage/system-state.html#navigator": {"export":true,"for_":[],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"Navigator","type":"interface","url":"https://html.spec.whatwg.org/multipage/system-state.html#navigator"},
+"https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-realm": {"export":true,"for_":[],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"relevant realm","type":"dfn","url":"https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-realm"},
+"https://html.spec.whatwg.org/multipage/webappapis.html#eventhandler": {"export":true,"for_":[],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"EventHandler","type":"typedef","url":"https://html.spec.whatwg.org/multipage/webappapis.html#eventhandler"},
+"https://html.spec.whatwg.org/multipage/webappapis.html#queue-a-task": {"export":true,"for_":[],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"queue a task","type":"dfn","url":"https://html.spec.whatwg.org/multipage/webappapis.html#queue-a-task"},
+"https://w3c.github.io/mediacapture-main/#dom-mediastreamtrack": {"export":true,"for_":[],"level":"1","normative":true,"shortname":"mediacapture-streams","spec":"mediacapture-streams","status":"current","text":"MediaStreamTrack","type":"interface","url":"https://w3c.github.io/mediacapture-main/#dom-mediastreamtrack"},
+"https://webaudio.github.io/web-audio-api/#AudioContext": {"export":true,"for_":[],"level":"1","normative":true,"shortname":"webaudio","spec":"webaudio","status":"current","text":"AudioContext","type":"interface","url":"https://webaudio.github.io/web-audio-api/#AudioContext"},
+"https://webidl.spec.whatwg.org/#Exposed": {"export":true,"for_":[],"level":"1","normative":true,"shortname":"webidl","spec":"webidl","status":"current","text":"Exposed","type":"extended-attribute","url":"https://webidl.spec.whatwg.org/#Exposed"},
+};
+
+function mkRefHint(link, ref) {
+    const linkText = link.textContent;
+    let dfnTextElements = '';
+    if (ref.text != linkText) {
+        dfnTextElements =
+            mk.li({},
+                mk.b({}, "Term: "),
+                mk.span({}, ref.text)
+            );
+    }
+    const forList = ref.for_;
+    let forListElements;
+    if(forList.length == 0) {
+        forListElements = [];
+    } else if(forList.length == 1) {
+        forListElements = mk.li({},
+            mk.b({}, "For: "),
+            mk.span({}, forList[0]),
+        );
+    } else {
+        forListElements = mk.li({},
+            mk.b({}, "For: "),
+            mk.ul({},
+                ...forList.map(forItem =>
+                    mk.li({},
+                        mk.span({}, forItem)
+                    ),
+                ),
+            ),
+        );
+    }
+    const url = ref.url;
+    const safeUrl = encodeURIComponent(url);
+    const hintPanel = mk.aside({
+        class: "ref-hint",
+        id: `ref-hint-for-${safeUrl}`,
+        "data-for": url,
+        "aria-labelled-by": `ref-hint-for-${safeUrl}`,
+    },
+        mk.ul({},
+            dfnTextElements,
+            mk.li({},
+                mk.b({}, "URL: "),
+                mk.a({ href: url, class: "ref" }, url),
+            ),
+            mk.li({},
+                mk.b({}, "Type: "),
+                mk.span({}, `${ref.type}`),
+            ),
+            mk.li({},
+                mk.b({}, "Spec: "),
+                mk.span({}, `${ref.spec ? ref.spec : ''}`),
+            ),
+            forListElements
+        ),
+    );
+    hintPanel.forLink = link;
+    setupRefHintEventListeners(link, hintPanel);
+    return hintPanel;
+}
+
+function hideAllRefHints() {
+    queryAll(".ref-hint").forEach(el=>hideRefHint(el));
+}
+
+function hideRefHint(refHint) {
+    const link = refHint.forLink;
+    link.setAttribute("aria-expanded", "false");
+    if(refHint.teardownEventListeners) {
+        refHint.teardownEventListeners();
+    }
+    refHint.remove();
+}
+
+function showRefHint(link) {
+    if(link.classList.contains("dfn-link")) return;
+    const url = link.getAttribute("href");
+    const ref = refsData[url];
+    if(!ref) return;
+
+    hideAllRefHints(); // Only display one at this time.
+
+    const refHint = mkRefHint(link, ref);
+    append(document.body, refHint);
+    link.setAttribute("aria-expanded", "true");
+    positionRefHint(refHint);
+}
+
+function setupRefHintEventListeners(link, refHint) {
+    if (refHint.teardownEventListeners) return;
+    // Add event handlers to hide the refHint after the user moves away
+    // from both the link and refHint, if not hovering either within one second.
+    let timeout = null;
+    const startHidingRefHint = (event) => {
+        if (timeout) {
+            clearTimeout(timeout);
+        }
+        timeout = setTimeout(() => {
+            hideRefHint(refHint);
+        }, 1000);
+    }
+    const resetHidingRefHint = (event) => {
+        if (timeout) clearTimeout(timeout);
+        timeout = null;
+    };
+    link.addEventListener("mouseleave", startHidingRefHint);
+    link.addEventListener("mouseenter", resetHidingRefHint);
+    link.addEventListener("blur", startHidingRefHint);
+    link.addEventListener("focus", resetHidingRefHint);
+    refHint.addEventListener("mouseleave", startHidingRefHint);
+    refHint.addEventListener("mouseenter", resetHidingRefHint);
+    refHint.addEventListener("blur", startHidingRefHint);
+    refHint.addEventListener("focus", resetHidingRefHint);
+
+    refHint.teardownEventListeners = () => {
+        // remove event listeners
+        resetHidingRefHint();
+        link.removeEventListener("mouseleave", startHidingRefHint);
+        link.removeEventListener("mouseenter", resetHidingRefHint);
+        link.removeEventListener("blur", startHidingRefHint);
+        link.removeEventListener("focus", resetHidingRefHint);
+        refHint.removeEventListener("mouseleave", startHidingRefHint);
+        refHint.removeEventListener("mouseenter", resetHidingRefHint);
+        refHint.removeEventListener("blur", startHidingRefHint);
+        refHint.removeEventListener("focus", resetHidingRefHint);
+    };
+}
+
+function positionRefHint(refHint) {
+    const link = refHint.forLink;
+    const linkPos = getBounds(link);
+    refHint.style.top = linkPos.bottom + "px";
+    refHint.style.left = linkPos.left + "px";
+
+    const panelPos = refHint.getBoundingClientRect();
+    const panelMargin = 8;
+    const maxRight = document.body.parentNode.clientWidth - panelMargin;
+    if (panelPos.right > maxRight) {
+        const overflowAmount = panelPos.right - maxRight;
+        const newLeft = Math.max(panelMargin, linkPos.left - overflowAmount);
+        refHint.style.left = newLeft + "px";
+    }
+}
+
+// TODO: shared util
+// Returns the root-level absolute position {left and top} of element.
+function getBounds(el, relativeTo=document.body) {
+    const relativeRect = relativeTo.getBoundingClientRect();
+    const elRect = el.getBoundingClientRect();
+    const top = elRect.top - relativeRect.top;
+    const left = elRect.left - relativeRect.left;
+    return {
+        top,
+        left,
+        bottom: top + elRect.height,
+        right: left + elRect.width,
+    }
+}
+
+function showRefHintListener(e) {
+    // If the target isn't in a link (or is a link),
+    // just ignore it.
+    let link = e.target.closest("a");
+    if(!link) return;
+
+    // If the target is in a ref-hint panel
+    // (aka a link in the already-open one),
+    // also just ignore it.
+    if(link.closest(".ref-hint")) return;
+
+    // Otherwise, show the panel for the link.
+    showRefHint(link);
+}
+
+function hideAllHintsListener(e) {
+    // If the click is inside a ref-hint panel, ignore it.
+    if(e.target.closest(".ref-hint")) return;
+    // Otherwise, close all the current panels.
+    hideAllRefHints();
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    document.body.addEventListener("mousedown", showRefHintListener);
+    document.body.addEventListener("focus", showRefHintListener);
+
+    document.body.addEventListener("click", hideAllHintsListener);
+});
+
+window.addEventListener("resize", () => {
+    // Hide any open ref hint.
+    hideAllRefHints();
+});
+}
+</script>
