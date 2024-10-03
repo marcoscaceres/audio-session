@@ -12,6 +12,10 @@ Abstract: This API defines an API surface for controlling how audio is rendered 
 Markup Shorthands: css no, markdown yes
 </pre>
 
+<pre class=link-defaults>
+spec:html; type:dfn; for:/; text:browsing context
+</pre>
+
 # Introduction # {#introduction}
 
 People consume a lot of media (audio/video) and the Web is one of the primary means of consuming this type of content.
@@ -27,8 +31,13 @@ In some cases this may not match user expectations, this API provides overrides 
 
 An <dfn>audio session</dfn> represents the playback of auditory media.
 An audio session can be of particular [=audio session/type=] and in a given [=audio session/state=].
+An audio session manages the audio for a set of sources and sinks, named audio session <dfn data-export data-lt="element" for="audio session">elements</dfn>.
 
-The {{AudioSession}} is the main interface for this API, which is accessed through the {{Navigator}} interface (see [[#extensions-to-navigator]]).
+An audio session [=audio session/element=] has a number of properties. In particular it defines:
+* An audio session <dfn data-export data-lt="element state update steps list" for="audio session">element state update steps list</dfn> to be executed when the audio session state changes. By default, it is an empty list.
+* An audio session <dfn data-export data-lt="element state" for="audio session">element state</dfn> which is an {{AudioSessionState}}.
+
+{{AudioSession}} is the main interface for this API, which is accessed through the {{Navigator}} interface (see [[#extensions-to-navigator]]).
 
 <pre class="idl">
   [Exposed=Window]
@@ -40,9 +49,29 @@ The {{AudioSession}} is the main interface for this API, which is accessed throu
   };
 </pre>
 
-## Audio session states ## {#audio-session-types}
+To create an {{AudioSession}} object in |realm|, run the following steps:
+* Let |audioSession| be a new {{AudioSession}} object in |realm|, initalized with the following internal slots:
+    * <dfn data-export>[[\type]]</dfn> to store the audio session= [=audio session/type=], initialized to {{AudioSessionType/auto}}.
+    * <dfn data-export>[[\state]]</dfn> to store the audio session [=audio session/state=], initialized to {{AudioSessionState/inactive}}.
+    * <dfn data-export>[[\elements]]</dfn> to store the audio session [=audio session/elements=], initialized to an empty list.
+* Return |audioSession|.
 
-By convention, there are several different [=audio session=] <dfn data-lt="type" for="audio session">types</dfn> for different purposes.
+Each {{AudioSession}} object is tied to its underlying [=audio session=].
+
+The {{AudioSession}} state attribute reflects its [=audio session=] [=audio session/state=].
+On getting, it MUST return the {{AudioSession}} [=[[\state]]=] value.
+
+The {{AudioSession}} type attribute reflects its [=audio session=] [=audio session/type=], except for {{AudioSessionType/auto}}.
+On getting, it MUST return the {{AudioSession}} [=[[\type]]=] value.
+On setting, it MUST run the following steps with |newValue| being the new value being set on |audioSession|:
+* If |audioSession|.[=[[\type]]=] is equal to |newValue|, abort these steps.
+* Set |audioSession|.[=[[\type]]=] to |newValue|.
+* [=Update all audio session states=] of |audioSession|'s [=top-level browsing context=] with |audioSession|.
+* [=Update the playback=] of |audioSession| with |newValue|.
+
+## Audio session types ## {#audio-session-types}
+
+By convention, there are several different [=audio session=] <dfn data-export data-lt="type" for="audio session">types</dfn> for different purposes.
 In the API, these are represented by the {{AudioSessionType}} enum:
 
 <dl>
@@ -57,7 +86,7 @@ In the API, these are represented by the {{AudioSessionType}} enum:
   <dt><dfn for="AudioSessionType" enum-value>play-and-record</dfn></dt>
   <dd>Play and record audio, which is used for recording audio. This is useful in cases microphone is being used or in video conferencing applications.</dd>
   <dt><dfn for="AudioSessionType" enum-value>auto</dfn></dt>
-  <dd>Auto lets the User Agent choose the best audio session type according the use of audio by the web page. This is the type of the default {{AudioSession}}.</dd>
+  <dd>Auto lets the user agent choose the best audio session type according the use of audio by the web page. This is the type of the default {{AudioSession}}.</dd>
 </dl>
 
 <pre class="idl">
@@ -71,9 +100,11 @@ In the API, these are represented by the {{AudioSessionType}} enum:
   };
 </pre>
 
+An {{AudioSessionType}} is an <dfn>exclusive type</dfn> if it is {{AudioSessionType/playback}} or {{AudioSessionType/play-and-record}}.
+
 ## Audio session states ## {#audio-session-states}
 
-An [=audio session=] can be in one of following <dfn data-lt="state" for="audio session">state</dfn> , which are represented in the API by the {{AudioSessionState}} enum:
+An [=audio session=] can be in one of the following <dfn data-lt="state" data-export for="audio session">state</dfn> , which are represented in the API by the {{AudioSessionState}} enum:
 
 <dl>
   <dt><dfn for="AudioSessionState" enum-value>active</dfn></dt>
@@ -84,9 +115,9 @@ An [=audio session=] can be in one of following <dfn data-lt="state" for="audio 
   <dd>the [=audio session=] is not playing sound.</dd>
 </dl>
 
-The page has a default audio session which is used by the user agent to automatically set up the audio session parameters.
-The UA will request and abandon audio focus when media elements start/finish playing on the page.
-This default audio session is represented as an {{AudioSession}} object that is exposed as {{Navigator/audioSession|navigator.audioSession}}.
+Each [=browsing context=] has a default audio session which is used by the user agent to automatically set up the audio session parameters.
+The user agent will request or abandon audio focus when audio session [=audio session/elements=] start or finish playing.
+This default audio session is represented as the [=associated AudioSession=] object that is exposed as {{Navigator/audioSession|navigator.audioSession}}.
 
 <pre class="idl">
   enum AudioSessionState {
@@ -98,6 +129,16 @@ This default audio session is represented as an {{AudioSession}} object that is 
 
 # Extensions to the `Navigator` interface # {#extensions-to-navigator}
 
+Each {{Window}} has an <dfn>associated AudioSession</dfn>, which is an
+{{AudioSession}} object. Upon creation of the {{Window}} object, its
+[=associated AudioSession=] MUST be set to a newly created {{AudioSession}}
+object with the {{Window}} object's [=relevant realm=].
+
+The [=associated AudioSession=] list of [=audio session/elements=] gets updated dynamically as audio sources and sinks are created and or removed.
+Objects such as {{AudioContext}} or microphone {{MediaStreamTrack}} are added to the [=associated AudioSession=] of their corresponding {{Window}} object.
+Similarly, an {{HTMLMediaElement}} is added to the [=associated AudioSession=] of their {{Window}} object. When it does change, the {{HTMLMediaElement}}
+is removed from its previous {{Window}}'s [=associated AudioSession=] and added to its new {{Window}}'s [=associated AudioSession=] if any.
+
 <pre class="idl">
 [Exposed=Window]
 partial interface Navigator {
@@ -105,6 +146,59 @@ partial interface Navigator {
   readonly attribute AudioSession audioSession;
 };
 </pre>
+
+# Audio session algorithms # {#audio-session-algorithms}
+
+To <dfn>update the state</dfn> of |audioSession| to |newState|, the user agent MUST run the following steps:
+* If |audioSession|.[=[[\state]]=] is already |newState|, abort these steps.
+* Set |audioSession|.[=[[\state]]=] to |newState|.
+* [=Update all audio session states=] of |audioSession|'s [=top-level browsing context=] with |audioSession|.
+* For each |element| of |audioSession|.[=[[\elements]]=], run |element|'s [=elements state update steps list|state update steps=].
+* Fire an event named statechange on |audioSession|.
+
+To <dfn>update all audio session states</dfn> of a [=browsing context=] named |context| with |updatedAudioSession|, run the following steps:
+* If |updatedAudioSession|.[=[[\type]]=] is not an [=exclusive type=] or |updatedAudioSession|.[=[[\state]]=] is not {{AudioSessionState/active}}, abort these steps.
+* Let |audioSession| be |context|'s [=active window=]'s [=associated AudioSession=].
+* If |audioSession| is not |updatedAudioSession|, [=queue a task=] to run the following step:
+    * If |audioSession|.[=[[\state]]=] is not {{AudioSessionState/active}}, abort these steps.
+    * Let |type| be the result of [=compute the audio session type|computing the audio session type=] with |audioSession|.
+    * If |type| is an [=exclusive type=], [=update the state=] of |audioSession| with {{AudioSessionState/interrupted}}.
+* For each [=browsing context=] child named |childContext| of |context|, [=update all audio session states=] of |childContext| with |updatedAudioSession|.
+
+When one of an |audioSession|'s [=audio session/elements=] state changes, the user agent MUST queue a task to run the following steps:
+* Let |newState| be {{AudioSessionState/inactive}}.
+* If any |element| of |audioSession|.[=[[\elements]]=] has a [=element state|state=] of {{AudioSessionState/active}}, set |newState| to {{AudioSessionState/active}}.
+* Otherwise, if any |element| of |audioSession|.[=[[\elements]]=] has a [=element state|state=] of {{AudioSessionState/interrupted}}, set |newState| to {{AudioSessionState/interrupted}}.
+* [=Update the state=] of |audioSession| with |newState|.
+
+To <dfn>compute the audio session type</dfn> with |audioSession|, the user agent MUST run the following steps:
+* If |audioSession|.[=[[\type]]=] is not {{AudioSessionType/auto}}, return |audioSession|.[=[[\type]]=].
+* If any |element| of |audioSession|.[=[[\elements]]=] is a live, not muted, microphone capture {{MediaStreamTrack}}, return {{AudioSessionType/play-and-record}}.
+* If any |element| of |audioSession|.[=[[\elements]]=] is an audible {{HTMLMediaElement}}, return {{AudioSessionType/playback}}.
+* If any |element| of |audioSession|.[=[[\elements]]=] is an audible {{AudioContext}}, return {{AudioSessionType/transient}}.
+* Return {{AudioSessionType/auto}}.
+
+To <dfn>update the playback</dfn> of |audioSession| with |newValue|, the user agent MUST run the following steps:
+* Let |type| be the result of [=compute the audio session type|computing the audio session type=] with |audioSession|.
+* [=In parallel=], update the plaback of |audioSession|'s [=audio session=] with |type|.
+
+To <dfn>compute the active audio session</dfn> of a [=browsing context=] named |context| with an optional |selectedAudioSession|, the user agent MUST run the following steps:
+* If |selectedAudioSession| is not defined, set it to <code>null</code>.
+* Let |audioSession| be |context|'s [=active window=]'s [=associated AudioSession=].
+* If |audioSession|.[=[[\state]]=] is {{AudioSessionState/active}} run these steps:
+    * If |audioSession|.[=[[\type]]=] is an [=exclusive type=], return |audioSession|.
+    * If |selectedAudioSession| is not <code>null</code>, abort these steps.
+    * If the result of [=compute the audio session type|computing the audio session type=] with |audioSession| is an [=exclusive type=], set |selectedAudioSession| to |audioSession|.
+* For each [=browsing context=] child named |childContext| of |context|, set |selectedAudioSession| to the result of [=compute the active audio session|computing the active audio session=] of |childContext| with |selectedAudioSession|.
+* Return |selectedAudioSession|.
+
+Given a [=top-level browsing context=] named |context|, its <dfn>active audio session</dfn> is the result of [=computing the active audio session|computing the active audio session=] with |context|.
+
+A [=top-level browsing context=] is said to have <dfn data-export data-lt="audio focus" for="audio session">audio focus</dfn> if its [=active audio session=] is not <code>null</code>.
+
+<div class=note>
+User agents can decide whether to allow several [=top-level browsing context=] to have [=audio focus=], or to enforce that only a single [=top-level browsing context=] has [=audio focus=] at any given time. This specification only ensures that, within a [=top-level browsing context=], there can be only one [=browsing context=] having [=audio focus=].
+</div>
 
 # Privacy considerations # {#privacy}
 
