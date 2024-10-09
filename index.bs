@@ -34,11 +34,13 @@ An [=audio session=] can be of particular [=audio session/type=] and in a given 
 An [=audio session=] manages the audio for a set of sources and sinks, named audio session <dfn data-export data-lt="element" for="audio session">elements</dfn>.
 
 An audio session [=audio session/element=] has a number of properties:
-* An audio session <dfn data-export data-lt="default type" for="audio session">default type</dfn>, which is used to compute the [=audio session=] [=audio session/type=], in case of {{AudioSessionType/auto}}..
-* An audio session <dfn data-export data-lt="element state update steps list" for="audio session">element state update steps list</dfn> to be executed when the audio session state changes. By default, it is an empty list. These steps are not expected to run JavaScript synchronously.
-* An audio session <dfn data-export data-lt="element state" for="audio session">element state</dfn> which is an {{AudioSessionState}}. By default it is {{AudioSessionState/inactive}}. An audio session [=audio session/element=] is {{AudioSessionState/inactive}} even if running, as long as it is not audible. This happens for an {{AudioContext}} that is not outputting samples to the speaker destination, or a muted {{HTMLMediaElement}} that is playing.
+* A <dfn data-export data-lt="default type" for="audio session">default type</dfn>, which is used to compute the [=audio session=] [=audio session/type=], in case of {{AudioSessionType/auto}}.
+* An <dfn>audible element</dfn> state, which is either <code>true</code> if the element is playing/recording audio or <code>false</code> otherwise.
+* <dfn data-export data-lt="element update steps" for="audio session">Element update steps</dfn> to be executed when the audio session state changes. By default, it is an empty list. These steps are not expected to run JavaScript synchronously.
+* <dfn data-export data-lt="element suspend steps" for="audio session">Element suspend steps</dfn> to be executed when the audio session state moves from {{AudioSessionState/active}} to {{AudioSessionState/interrupted}} or {{AudioSessionState/inactive}}. By default, it is an empty list. These steps are not expected to run JavaScript synchronously.
+* <dfn data-export data-lt="element resume steps" for="audio session">Element resume steps</dfn> to be executed when the audio session state moves from {{AudioSessionState/interrupted}} to {{AudioSessionState/active}}. By default, it is an empty list. These steps are not expected to run JavaScript synchronously.
 
-A [=top-level browsing context=] has a <dfn>selected audio session</dfn>.
+A [=top-level browsing context=] has a <dfn>selected audio session</dfn>. The [=selected audio session=] may be [=update the selected audio session|updated=] dynamically.
 A [=top-level browsing context=] is said to have <dfn data-export data-lt="audio focus" for="audio session">audio focus</dfn> if its [=selected audio session=] is not <code>null</code> and its state is {{AudioSessionState/active}}.
 
 <div class=note>
@@ -75,8 +77,8 @@ On setting, it MUST run the following steps with |newValue| being the new value 
 * If |audioSession|.[=[[\type]]=] is equal to |newValue|, abort these steps.
 * Set |audioSession|.[=[[\type]]=] to |newValue|.
 * [=Update all AudioSession states=] of |audioSession|'s [=top-level browsing context=] with |audioSession|.
-* For each |element| of |audioSession|.[=[[\elements]]=], run |element|'s [=elements state update steps list|state update steps=].
-* Let |newType| be the result of [=compute the audio session type|computing the audio session type=] with |audioSession|.
+* For each |element| of |audioSession|.[=[[\elements]]=], {=update an element|update=] |element|.
+* Let |newType| be the result of [=compute the audio session type|computing the type=] of |audioSession|.
 * [=In parallel=], change the  [=audio session/type=] of |audioSession|'s [=audio session=] to |newType|.
 
 ## Audio session types ## {#audio-session-types}
@@ -133,6 +135,8 @@ An [=audio session=] can be in one of the following <dfn data-lt="state" data-ex
   };
 </pre>
 
+The [=audio session=]'s state may change, which will automatically [=update the state=] of its {{AudioSession}} object.
+
 # Extensions to the `Navigator` interface # {#extensions-to-navigator}
 
 Each {{Window}} has an <dfn>associated AudioSession</dfn>, which is an {{AudioSession}} object.
@@ -158,8 +162,9 @@ partial interface Navigator {
 To <dfn>update the state</dfn> of |audioSession| to |newState| with a |skipApply| flag, the user agent MUST run the following steps:
 * If |audioSession|.[=[[\state]]=] is |newState|, abort these steps.
 * Set |audioSession|.[=[[\state]]=] to |newState|.
+* If |newState| is {{AudioSessionState/inactive}}, empty its [=interrupted element list=].
 * [=Update all AudioSession states=] of |audioSession|'s [=top-level browsing context=] with |audioSession|.
-* For each |element| of |audioSession|.[=[[\elements]]=], run |element|'s [=elements state update steps list|state update steps=].
+* For each |element| of |audioSession|.[=[[\elements]]=], [=update an element|update=] |element|.
 * If |skipApply| is not set, run the following steps [=in parallel=]:
     * Assert that |newState| is not {{AudioSessionState/interrupted}}.
     * <dfn>Change the state</dfn> of |audioSession|'s [=audio session=] to |newState|.
@@ -171,34 +176,27 @@ When the user agent observes a modification of an [=audio session=]'s [=audio se
 * Let |newState| be  the [=audio sessions=]'s [=audio session/state=].
 * [=Update the state=] of |audioSession| with |newState| and |skipApply| being set.
 
-To <dfn>update all AudioSession states</dfn> of a [=browsing context=] named |context| with |updatedAudioSession|, run the following steps:
-* If |context| is a [=top-level browsing context=], [=update the selected audio session=] of |context| with |audioSession|.
-* If |updatedAudioSession|.[=[[\type]]=] is not an [=exclusive type=] or |updatedAudioSession|.[=[[\state]]=] is not {{AudioSessionState/active}}, abort these steps.
-* Let |audioSession| be |context|'s [=active window=]'s [=associated AudioSession=].
-* If |audioSession| is not |updatedAudioSession|, [=queue a task=] to run the following step:
+To <dfn>update all AudioSession states</dfn> of a [=top-level browsing context=] named |context| with |updatedAudioSession|, run the following steps:
+* [=Update the selected audio session=] of |context|.
+* Let |updatedType| be the result of [=compute the audio session type|computing the type=] of |updatedAudioSession|.
+* If |updatedType| is not an [=exclusive type=] or |updatedAudioSession|.[=[[\state]]=] is not {{AudioSessionState/active}}, abort these steps.
+* Let |audioSessions| be the list of all the {{AudioSession}} objects of |context| and its children in a breadth-first order.
+* For each |audioSession| of |audioSessions| except for |updatedAudioSession|, [=queue a task=] to run the following steps:
     * If |audioSession|.[=[[\state]]=] is not {{AudioSessionState/active}}, abort these steps.
-    * Let |type| be the result of [=compute the audio session type|computing the audio session type=] with |audioSession|.
-    * If |type| is an [=exclusive type=], [=update the state=] of |audioSession| with {{AudioSessionState/inactive}}.
-* For each [=browsing context=] child named |childContext| of |context|, [=update all AudioSession states=] of |childContext| with |updatedAudioSession|.
+    * Let |type| be the result of [=compute the audio session type|computing the type=] of |audioSession|.
+    * If |type| is not an [=exclusive type=], abort these steps.
+    * If |type| and |updatedType| are both {{AudioSessionType/auto}}, abort these steps.
+    * [=Update the state=] of |audioSession| to {{AudioSessionState/inactive}}.
 
-To <dfn>update the selected audio session</dfn> of a [=top-level browsing context=] named |context| with |audioSession|, the user agent MUST run the following steps:
-* Let |selectedAudioSession| be the {{AudioSession}} object [=tied to=] the [=selected audio session=] if any and <code>null</code> otherwise.
-* If |audioSession| is |selectedAudioSession|, and |audioSession| is {{AudioSessionState/active}}, abort these steps.
-* If |audioSession| is |selectedAudioSession|, and |audioSession| is not {{AudioSessionState/active}}, run the following steps:
-    * If there is an [=audio session=] of |context| or one of its children, whose [=audio session/type=] is an [=exclusive type=] and whose [=audio session/state=] is {{AudioSessionState/active}}, set |context|'s [=selected audio session=] to this [=audio session=].
-* Otherwise, run the following steps:
-    * let |shouldSwitch| be the result of [=decide to switch of selected audio session|deciding to change of selected audio session=] with |audioSession| and |selectedAudioSession|.
-    * If |shouldSwitch| is <code>true</code>, set |context|'s [=selected audio session=] to |audioSession|'s [=audio session=].
-
-To <dfn>decide to switch of selected audio session</dfn> with |newAudioSession| and |selectedAudioSession|, the user agent MUST run the following steps:
-* If |audioSession|.[=[[\type]]=] is an [=exclusive type=] and |audioSession|.[=[[\state]]=] is {{AudioSessionState/active}}, return <code>true</code>.
-* Let |type| be the result of [=compute the audio session type|computing the audio session type=] with |audioSession|.
-* If |type| is not an [=exclusive type=], return <code>false</code>.
-* If |selectedAudioSession| is <code>null</code>, return <code>true</code>.
-* If |selectedAudioSession|.[=[[\type]]=] is an [=exclusive type=], return <code>false</code>.
-* If |selectedAudioSession|.[=[[\state]]=] is not {{AudioSessionState/active}} and |audioSession|.[=[[\state]]=] is {{AudioSessionState/active}}, return <code>true</code>.
-* If user agent has specific heuristics, return the result of those specific heuristics as a boolean with |newAudioSession| and |selectedAudioSession|.
-* Return false.
+To <dfn>update the selected audio session</dfn> of a [=top-level browsing context=] named |context|, the user agent MUST run the following steps:
+* Let |activeAudioSessions| be the list of all the {{AudioSession}} objects of |context| and its children in a breadth-first order, that match both constraints:
+    * It is {{AudioSessionState/active}}.
+    * Its [=compute the audio session type|computed type=] is an [=exclusive type=].
+* If |activeAudioSessions| is empty, abort these steps.
+* If there is only one {{AudioSession}} object in |activeAudioSessions|, set the [=selected audio session=] to its [=audio session=] and abort these steps.
+* Assert that for all |audioSession| in |activeAudioSessions|'s, |audioSession|.[=[[\type]]=] is {{AudioSessionType/auto}}.
+* The user agent MAY apply specific heuristics to reorder |activeAudioSessions|.
+* Set the [=selected audio session=] to the [=audio session=] of the first {{AudioSession}} in |activeAudioSessions|.
 
 When one of |audioSession|'s [=audio session/elements=] state changes, the user agent MUST queue a task to run the following steps:
 * Let |newState| be {{AudioSessionState/inactive}}.
@@ -206,7 +204,7 @@ When one of |audioSession|'s [=audio session/elements=] state changes, the user 
 * Otherwise, if any |element| of |audioSession|.[=[[\elements]]=] has a [=element state|state=] of {{AudioSessionState/interrupted}}, set |newState| to {{AudioSessionState/interrupted}}.
 * [=Update the state=] of |audioSession| with |newState|.
 
-To <dfn>compute the audio session type</dfn> with |audioSession|, the user agent MUST run the following steps:
+To <dfn>compute the audio session type</dfn> of |audioSession|, the user agent MUST run the following steps:
 * If |audioSession|.[=[[\type]]=] is not {{AudioSessionType/auto}}, return |audioSession|.[=[[\type]]=].
 * If any |element| of |audioSession|.[=[[\elements]]=] has a [=default type=] of {{AudioSessionType/play-and-record}} and its [=element state|state=] is {{AudioSessionState/active}}, return {{AudioSessionType/play-and-record}}.
 * If any |element| of |audioSession|.[=[[\elements]]=] has a [=default type=] of {{AudioSessionType/playback}} and its [=element state|state=] is {{AudioSessionState/active}}, return {{AudioSessionType/playback}}.
@@ -216,47 +214,62 @@ To <dfn>compute the audio session type</dfn> with |audioSession|, the user agent
 
 # Audio source and sink integration # {#integration}
 
-FIXME: Migrate these subsections to the specifications defining each source and sink.
+An {{AudioSession}} object has an <dfn>interrupted element list</dfn> which contains all the elements that were paused due to being {{AudioSessionState/interrupted}}.
+
+An <dfn>element state</dfn> is:
+    * {{AudioSessionState/interrupted}} if it is in its {{AudioSession}}'s [=interrupted element list=].
+    * {{AudioSessionState/active}} if it is an [=audible element=].
+    * {{AudioSessionState/inactive}} otherwise.
+
+To <dfn>update an element</dfn> named |element|, the user agent MUST run the following steps:
+* Let |audioSession| be |element|'s {{AudioSession}}.
+* Run |element|'s [=element update steps|update steps=].
+* If |element| is an [=audible element=] and |audioSession|.[=[[\state]]=] is {{AudioSessionState/interrupted}}, run the following steps:
+    * Add |element| to |audioSession|'s [=interrupted element list=].
+    * Run |element|'s [=element suspend steps|suspend steps=].
+* If |element| is in |audioSession|'s [=interrupted element list=], and |audioSession|.[=[[\state]]=] is {{AudioSessionState/active}}, run the following steps:
+    * Remove |element| from |audioSession|'s [=interrupted element list=].
+    * Run |element|'s [=element resume steps|resume steps=].
 
 ## Microphone capture MediaStreamtrack ## {#microphone-track-source}
 
 A microphone capture {{MediaStreamTrack}} is an [=audio session/element=] with the following properties:
 * Its [=default type=] is {{AudioSessionType/play-and-record}}.
-* Its [=element state update steps list=] is empty.
-    * TODO: handle the change of type and change of state.
-* Its [=element state=] is:
-    * {{AudioSessionState/interrupted}} if its [=audio session=] is {{AudioSessionState/interrupted}}.
-    * {{AudioSessionState/active}} if it is {{MediaStreamTrackState/live}} and not [=MediaStreamTrack/muted=].
-    * {{AudioSessionState/inactive}} otherwise.
+* Its [=audible element=] state is true if it is live and not muted.
+* Its [=element update steps=] are:
+    * Let |track| be the {{MediaStreamTrack}} object.
+    * Let |audioSession| be |track|'s {{AudioSession}}.
+    * If |audioSession|.[=[[\type]]=] is not {{AudioSessionType/play-and-record}} or  {{AudioSessionType/auto}}, [=queue a task=] to end |track|.
+* Its [=element suspend steps|suspend steps=] are:
+    * Let |track| be the {{MediaStreamTrack}} object.
+    * [=Queue a task=] to [$set a track's muted state$] to <code>true</code> on |track|.
+* Its [=element resume steps|resume steps=] are:
+    * Let |track| be the {{MediaStreamTrack}} object.
+    * [=Queue a task=] to [$set a track's muted state$] to <code>false</code> on |track|.
 
 ## HTMLMediaElement ## {#media-element-sink}
 
 A {{HTMLMediaElement}} is an [=audio session/element=] with the following properties:
 * Its [=default type=] is {{AudioSessionType/playback}}.
-* Its [=element state update steps list=] is:
-    * [=Queue a task=] to run the following steps:
-        * Let |mediaElement| be the {{HTMLMediaElement}}'s object.
-        * Let |audioSession| be |mediaElement|'s {{AudioSession}}.
-        * If |audioSession|.[=[[\state]]=] is {{AudioSessionState/inactive}} or {{AudioSessionState/interrupted}}, run the internal pause steps of |mediaElement|.
-        * TODO: Handle the uninterruption case.
-* Its [=element state=] is:
-    * {{AudioSessionState/interrupted}} if its [=audio session=] is {{AudioSessionState/interrupted}}.
-    * {{AudioSessionState/active}} if it is playing, its volume is not <code>0</code>, it is not muted and it has audio tracks.
-    * {{AudioSessionState/inactive}} otherwise.
+* Its [=audible element=] state is true if it is playing, its volume is not <code>0</code>, it is not muted and it has audio tracks..
+* Its [=element suspend steps|suspend steps=] are:
+    * Let |mediaElement| be the {{HTMLMediaElement}} object.
+    * [=Queue a task=] to run the internal play steps of |mediaElement|.
+* Its [=element resume steps|resume steps=] are:
+    * Let |mediaElement| be the {{HTMLMediaElement}} object.
+    * [=Queue a task=] to run the internal pause steps of |mediaElement|.
 
 ## AudioContext ## {#audiocontext-sink}
 
 An {{AudioContext}} is an [=audio session/element=] with the following properties:
 * Its [=default type=] is {{AudioSessionType/ambient}}.
-* Its [=element state update steps list=] is:
-    * Let |audioContext| be the {{AudioContext}}'s object.
-    * Let |audioSession| be |audioContext|'s {{AudioSession}}.
-    * If |audioSession|.[=[[\state]]=] is {{AudioSessionState/inactive}} or {{AudioSessionState/interrupted}}, queue a control message to suspend |audioContext|.
-    * TODO: Handle the uninterruption case.
-* Its [=element state=] is:
-    * {{AudioSessionState/interrupted}} if its [=audio session=] is {{AudioSessionState/interrupted}}.
-    * {{AudioSessionState/active}} if its state is {{AudioContexState/running}} and is sending non zero samples to its destination.
-    * {{AudioSessionState/inactive}} otherwise.
+* Its [=audible element=] state is true if its state is {{AudioContextState/running}} and is sending non zero samples to its destination.
+* Its [=element suspend steps|suspend steps=] are:
+    * Let |audioContext| be the {{AudioContext}} object.
+    * Queue a control message to suspend |audioContext|.
+* Its [=element resume steps|resume steps=] are:
+    * Let |audioContext| be the {{AudioContext}} object.
+    * Queue a control message to unsuspend |audioContext|.
 
 # Privacy considerations # {#privacy}
 
